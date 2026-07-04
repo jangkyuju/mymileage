@@ -26,6 +26,7 @@
 		AABBCC001122334455667702 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667701 /* Models.swift */; };
 		AABBCC001122334455667703 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667701 /* Models.swift */; };
 		AABBCC001122334455667705 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667704 /* HealthKitService.swift */; };
+		AABBCC001122334455667790 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667791 /* OnboardingView.swift */; };
 		AABBCC001122334455667707 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667706 /* HealthKit.framework */; };
 		AABBCC001122334455667709 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667708 /* NotificationManager.swift */; };
 		AABBCC00112233445566770B /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC00112233445566770A /* LocalizedStrings.swift */; };
@@ -41,6 +42,7 @@
 		AABBCC001122334455667736 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667726 /* Pretendard-ExtraBold.otf */; };
 		AABBCC001122334455667741 /* ModernComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667740 /* ModernComponents.swift */; };
 		AABBCC001122334455667743 /* PhotoGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667742 /* PhotoGalleryView.swift */; };
+		AABBCC001122334455667755 /* CelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCC001122334455667754 /* CelebrationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,7 @@
 		66B64C272F434FC80046DB87 /* SharedDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDataManager.swift; sourceTree = "<group>"; };
 		AABBCC001122334455667701 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		AABBCC001122334455667704 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		AABBCC001122334455667791 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AABBCC001122334455667706 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		AABBCC001122334455667708 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		AABBCC00112233445566770A /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 		AABBCC001122334455667726 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		AABBCC001122334455667740 /* ModernComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernComponents.swift; sourceTree = "<group>"; };
 		AABBCC001122334455667742 /* PhotoGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryView.swift; sourceTree = "<group>"; };
+		AABBCC001122334455667754 /* CelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 				66B64C042F3EB22D0046DB87 /* MotivationRun.entitlements */,
 				AABBCC001122334455667701 /* Models.swift */,
 				AABBCC001122334455667704 /* HealthKitService.swift */,
+				AABBCC001122334455667791 /* OnboardingView.swift */,
 				AABBCC001122334455667708 /* NotificationManager.swift */,
 				AABBCC00112233445566770A /* LocalizedStrings.swift */,
 				AABBCC00112233445566770D /* LogView.swift */,
@@ -197,6 +202,7 @@
 				AABBCC001122334455667711 /* Products.storekit */,
 				AABBCC001122334455667740 /* ModernComponents.swift */,
 				AABBCC001122334455667742 /* PhotoGalleryView.swift */,
+				AABBCC001122334455667754 /* CelebrationView.swift */,
 				66B64C272F434FC80046DB87 /* SharedDataManager.swift */,
 				66B64BD92F3B54AD0046DB87 /* MotivationRunApp.swift */,
 				66B64BDB2F3B54AD0046DB87 /* ContentView.swift */,
@@ -445,6 +451,7 @@
 			files = (
 				AABBCC001122334455667702 /* Models.swift in Sources */,
 				AABBCC001122334455667705 /* HealthKitService.swift in Sources */,
+				AABBCC001122334455667790 /* OnboardingView.swift in Sources */,
 				AABBCC001122334455667709 /* NotificationManager.swift in Sources */,
 				AABBCC00112233445566770B /* LocalizedStrings.swift in Sources */,
 				66B2F49D2FE2344B00409853 /* RunSessionDetailView.swift in Sources */,
@@ -454,6 +461,7 @@
 				AABBCC001122334455667710 /* StoreManager.swift in Sources */,
 				AABBCC001122334455667741 /* ModernComponents.swift in Sources */,
 				AABBCC001122334455667743 /* PhotoGalleryView.swift in Sources */,
+				AABBCC001122334455667755 /* CelebrationView.swift in Sources */,
 				66B64BDA2F3B54AD0046DB87 /* MotivationRunApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -56,13 +56,7 @@ private struct WidgetStats {
         remaining = max(goalTarget - currentValue, 0)
         progress  = goalTarget > 0 ? min(currentValue / goalTarget, 1.0) : 0
 
-        let days: Int
-        if let startOfThisMonth = cal.date(from: cal.dateComponents([.year, .month], from: date)),
-           let startOfNextMonth  = cal.date(byAdding: .month, value: 1, to: startOfThisMonth) {
-            days = max(cal.dateComponents([.day], from: date, to: startOfNextMonth).day ?? 1, 1)
-        } else {
-            days = 1
-        }
+        let days = remainingDaysInMonth(from: date, calendar: cal)
         remainingDays = days
 
         frequency = runFrequency
@@ -543,9 +537,9 @@ private func thickProgressBar(progress: Double, height: CGFloat,
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), stats: nil,
-                    themeAccent: .yellow, themeBackground: .black,
+                    themeAccent: .blue, themeBackground: .white,
                     distanceUnit: .km, language: .english,
-                    bgImageData: nil, bgIsDark: true,
+                    bgImageData: nil, bgIsDark: false,
                     widgetDesign: .complete, isPro: false,
                     runFrequency: .everyOther)
     }

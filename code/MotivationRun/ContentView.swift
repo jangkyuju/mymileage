@@ -30,6 +30,21 @@ enum ChartMetric: CaseIterable {
     }
 }
 
+// MARK: - 공유 헬퍼
+
+private func streakFromSessions(_ sessions: [RunSession]) -> Int {
+    let cal = Calendar.current
+    var streak = 0
+    var checkDate = cal.startOfDay(for: Date())
+    let runDays = Set(sessions.map { cal.startOfDay(for: $0.date) })
+    while runDays.contains(checkDate) {
+        streak += 1
+        guard let prev = cal.date(byAdding: .day, value: -1, to: checkDate) else { break }
+        checkDate = prev
+    }
+    return streak
+}
+
 // MARK: - 메인 뷰
 
 struct ContentView: View {
@@ -43,14 +58,16 @@ struct ContentView: View {
     @State private var isAuthorized: Bool = false
     @State private var showGoalSheet: Bool = false
     @State private var showHelpSheet: Bool = false
-    @State private var themeAccent: ThemeAccent = .yellow
-    @State private var themeBackground: ThemeBackground = .black
+    @State private var showOnboarding: Bool = false
+    @State private var themeAccent: ThemeAccent = .blue
+    @State private var themeBackground: ThemeBackground = .white
     @State private var distanceUnit: DistanceUnit = .km
     @State private var appLanguage: AppLanguage = .english
     @State private var notificationSettings: NotificationSettings = NotificationSettings()
     @State private var selectedTab: Int = 0
     @State private var toastMessage: String = ""
     @State private var showToast: Bool = false
+    @State private var showCelebration: Bool = false
 
     // MARK: - 월 네비게이션
     @State private var allSessions: [RunSession] = []
@@ -138,13 +155,7 @@ struct ContentView: View {
     }
 
     private var remainingDays: Int {
-        let cal = Calendar.current
-        let now = Date()
-        guard let startOfThisMonth = cal.date(from: cal.dateComponents([.year, .month], from: now)),
-              let startOfNextMonth  = cal.date(byAdding: .month, value: 1, to: startOfThisMonth) else {
-            return 1
-        }
-        return max(cal.dateComponents([.day], from: now, to: startOfNextMonth).day ?? 1, 1)
+        remainingDaysInMonth(from: Date())
     }
 
     // MARK: - 선택된 월 표시 문자열
@@ -156,8 +167,31 @@ struct ContentView: View {
         comps.year = selectedYear
         comps.month = selectedMonth
         comps.day = 1
-        let date = Calendar.current.date(from: comps) ?? Date()
+        guard let date = Calendar.current.date(from: comps) else { return "" }
         return f.string(from: date)
+    }
+
+    private var todayDayString: String {
+        let f = DateFormatter()
+        f.locale = appLanguage.locale
+        f.dateFormat = "d MMM"
+        return f.string(from: Date())
+    }
+
+    private var celebrationPrimaryValue: Double {
+        switch goalType {
+        case .distance: return monthTotalDistanceKm * distanceUnit.conversionFromKm
+        case .calories: return monthTotalCalories
+        case .duration: return monthTotalDurationMin / 60
+        }
+    }
+
+    private var celebrationPrimaryUnit: String {
+        switch goalType {
+        case .distance: return distanceUnit.symbol
+        case .calories: return "kcal"
+        case .duration: return "hr"
+        }
     }
 
     private func navigateMonth(delta: Int) {
@@ -184,7 +218,7 @@ struct ContentView: View {
         // .overlay places FloatingTabBar in a separate UIKit layer above NavigationView,
         // which avoids UIKit hit-test interception from the UINavigationController.
         ZStack {
-            dashboardTab
+            dashboardTab()
                 .opacity(selectedTab == 0 ? 1 : 0)
                 .allowsHitTesting(selectedTab == 0)
 
@@ -211,6 +245,7 @@ struct ContentView: View {
                 goalType: $goalType,
                 goalTarget: $goalTarget,
                 showHelpSheet: $showHelpSheet,
+                showOnboarding: $showOnboarding,
                 onSettingsChanged: {
                     rescheduleNotifications()
                     loadData()
@@ -223,7 +258,6 @@ struct ContentView: View {
                 onSyncHealthKit: syncWithHealthKit,
                 onSetGoal: { showGoalSheet = true },
                 isSyncing: isSyncing,
-                isAuthorized: isAuthorized,
                 tabBarHeight: 88
             )
             .opacity(selectedTab == 3 ? 1 : 0)
@@ -242,11 +276,38 @@ struct ContentView: View {
             )
             .ignoresSafeArea(edges: .bottom)
         }
+        .fullScreenCover(isPresented: $showOnboarding) {
+            OnboardingView(
+                language: $appLanguage,
+                cAccent: cAccent, cBg: cBg, cCard: cCard, cText: cText, cSub: cSub
+            ) {
+                UserDefaults.standard.set(true, forKey: "onboardingCompleted")
+                showOnboarding = false
+                loadData()
+                // 온보딩 완료 직후 알림 권한 요청 (daily reminder 기본 ON)
+                NotificationManager.shared.requestAuthorization { _ in
+                    rescheduleNotifications()
+                }
+            }
+        }
+        .onAppear {
+            if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
+                appLanguage = SharedDataManager.shared.getLanguage()
+                showOnboarding = true
+            } else {
+                // 기존 사용자 커버: 아직 권한을 안 물어봤고 알림이 켜져 있으면 1회 요청
+                if SharedDataManager.shared.getNotificationSettings().isEnabled {
+                    NotificationManager.shared.requestAuthorizationIfNotDetermined { granted in
+                        if granted { rescheduleNotifications() }
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - 대시보드 탭 콘텐츠
 
-    private var dashboardTab: some View {
+    private func dashboardTab() -> some View {
         NavigationView {
             ZStack {
                 cBg.ignoresSafeArea()
@@ -304,6 +365,18 @@ struct ContentView: View {
             HelpView(language: appLanguage,
                      cAccent: cAccent, cBg: cBg, cCard: cCard, cText: cText, cSub: cSub)
         }
+        .fullScreenCover(isPresented: $showCelebration) {
+            CelebrationView(
+                primaryValue: celebrationPrimaryValue,
+                primaryUnit: celebrationPrimaryUnit,
+                monthLabel: selectedMonthString,
+                goalTarget: goalTarget,
+                sessionCount: monthSessionCount,
+                streak: computeStreak()
+            ) {
+                showCelebration = false
+            }
+        }
         .overlay(alignment: .bottom) {
             if showToast {
                 Text(toastMessage)
@@ -359,13 +432,7 @@ struct ContentView: View {
                     .font(.pretendard(.bold, size: 16))
                     .foregroundColor(cText)
                 if isCurrentMonth {
-                    let dayStr: String = {
-                        let f = DateFormatter()
-                        f.locale = appLanguage.locale
-                        f.dateFormat = "d MMM"
-                        return f.string(from: Date())
-                    }()
-                    Text("Today · \(dayStr)")
+                    Text("Today · \(todayDayString)")
                         .font(.pretendard(.medium, size: 11))
                         .foregroundColor(cSub)
                 }
@@ -437,7 +504,7 @@ struct ContentView: View {
         case .orange: return [Color(hex: "#FF8A30"), Color(hex: "#FD6A00")]
         case .red:    return [Color(hex: "#F75050"), Color(hex: "#D42020")]
         case .purple: return [Color(hex: "#B266EE"), Color(hex: "#7C22C8")]
-        case .yellow: return [Color(hex: "#FFD145"), Color(hex: "#FFB902")]
+        case .yellow: return [Color(hex: "#ffcb31"), Color(hex: "#eeac04")]
         }
     }
 
@@ -722,13 +789,12 @@ struct ContentView: View {
     }
 
     private func postSyncUpdate(showToast: Bool = false) {
-        if let stats = SharedDataManager.shared.getMonthlyStats() {
-            rescheduleNotifications(stats: stats)
-        }
+        rescheduleNotifications()
         loadData()
         fetchAllSessions()
         WidgetCenter.shared.reloadAllTimelines()
         if showToast { showToastBanner(t(.syncCompleted)) }
+        checkForGoalCelebration()
     }
 
     private func fetchAllSessions() {
@@ -737,6 +803,11 @@ struct ContentView: View {
         HealthKitService.shared.fetchAllRunningSessions { sessions in
             allSessions = sessions
             isLoadingSessions = false
+            let settings = SharedDataManager.shared.getNotificationSettings()
+            NotificationManager.shared.scheduleDailyReminder(
+                hasRunToday: hasRunToday(),
+                settings: settings
+            )
         }
     }
 
@@ -764,18 +835,38 @@ struct ContentView: View {
 
     // MARK: - 알림 재스케줄
 
-    private func rescheduleNotifications(stats: MonthlyStats? = nil) {
-        let s        = stats ?? SharedDataManager.shared.getMonthlyStats()
+    private func rescheduleNotifications() {
         let settings = SharedDataManager.shared.getNotificationSettings()
-        let distUnit = SharedDataManager.shared.getDistanceUnit()
-        let gType    = SharedDataManager.shared.getGoalType()
-        let gTarget  = SharedDataManager.shared.getGoalTarget()
-        let displayValue = s?.displayCurrentValue(distanceUnit: distUnit) ?? 0
-        let rem = max(gTarget - displayValue, 0)
-        NotificationManager.shared.scheduleGoalReminders(
-            remaining: rem, goalType: gType,
-            distanceUnit: distUnit, settings: settings
+        NotificationManager.shared.scheduleDailyReminder(
+            hasRunToday: hasRunToday(),
+            settings: settings
         )
+    }
+
+    private func hasRunToday() -> Bool {
+        let todayStart = Calendar.current.startOfDay(for: Date())
+        return allSessions.contains { Calendar.current.startOfDay(for: $0.date) == todayStart }
+    }
+
+    // MARK: - Streak helper (used by CelebrationView)
+
+    private func computeStreak() -> Int { streakFromSessions(allSessions) }
+
+    private func checkForGoalCelebration() {
+        guard isCurrentMonth, goalTarget > 0 else { return }
+        let key = "celebratedMonth_\(selectedYear)-\(selectedMonth)"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        let currentValue: Double
+        switch goalType {
+        case .distance: currentValue = monthTotalDistanceKm * distanceUnit.conversionFromKm
+        case .calories: currentValue = monthTotalCalories
+        case .duration: currentValue = monthTotalDurationMin / 60
+        }
+        guard currentValue >= goalTarget else { return }
+        UserDefaults.standard.set(true, forKey: key)
+        DispatchQueue.main.async {
+            showCelebration = true
+        }
     }
 
     private func loadData() {
@@ -793,6 +884,7 @@ struct ContentView: View {
         lastSync        = stats?.lastSyncTime
         isAuthorized    = HealthKitService.shared.hasRequestedAuthorization()
         applyNavBarStyle()
+        checkForGoalCelebration()
     }
 
     // iOS large title ≈ 34pt → 15% reduction = ~29pt
@@ -1169,16 +1261,17 @@ struct SettingsTabView: View {
     @Binding var goalType: GoalType
     @Binding var goalTarget: Double
     @Binding var showHelpSheet: Bool
+    @Binding var showOnboarding: Bool
 
     var onSettingsChanged: () -> Void
     var onReset: () -> Void
     var onSyncHealthKit: () -> Void
     var onSetGoal: () -> Void
     var isSyncing: Bool
-    var isAuthorized: Bool
     var tabBarHeight: CGFloat = 88
 
     @State private var isReconnecting = false
+    @State private var showHKGuideAlert = false
     @State private var showResetConfirm = false
     @State private var notifAuthStatus: String = ""
     @State private var settingsToastMsg: String = ""
@@ -1217,6 +1310,24 @@ struct SettingsTabView: View {
         SharedDataManager.shared.saveLanguage(language)
         SharedDataManager.shared.saveWidgetDesign(selectedWidgetDesign)
         onSettingsChanged()
+    }
+
+    // 알림 시:분을 native DatePicker(Date)와 연결하는 브리지 바인딩
+    private var reminderTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                var c = DateComponents()
+                c.hour = notificationSettings.reminderHour
+                c.minute = notificationSettings.reminderMinute
+                return Calendar.current.date(from: c) ?? Date()
+            },
+            set: { newDate in
+                let c = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                notificationSettings.reminderHour = c.hour ?? 19
+                notificationSettings.reminderMinute = c.minute ?? 0
+                saveAll()
+            }
+        )
     }
 
     // MARK: - Icon badge helper
@@ -1288,10 +1399,35 @@ struct SettingsTabView: View {
                                 }
                                 .buttonStyle(.plain)
                                 rowDivider
+                                // 권한 행 — 항상 표시 (권한 허용 / 건강 앱에서 관리)
+                                Button(action: {
+                                    if HealthKitService.shared.hasRequestedAuthorization() {
+                                        showHKGuideAlert = true
+                                    } else {
+                                        isReconnecting = true
+                                        HealthKitService.shared.requestAuthorization { _ in
+                                            isReconnecting = false
+                                        }
+                                    }
+                                }) {
+                                    HStack(spacing: 12) {
+                                        settingsIcon("heart.text.square", .red)
+                                        Text(t(.allowHealthKit))
+                                            .font(.pretendard(.regular, size: 16))
+                                            .foregroundColor(background.mainText)
+                                        Spacer()
+                                        if isReconnecting { ProgressView() }
+                                    }
+                                    .padding(.horizontal, 14).padding(.vertical, 13)
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(isReconnecting)
+                                rowDivider
+                                // 동기화 행 — 항상 표시 (Apple Health 데이터 가져오기)
                                 Button(action: onSyncHealthKit) {
                                     HStack(spacing: 12) {
-                                        settingsIcon(isAuthorized ? "arrow.clockwise" : "heart.text.square", .red)
-                                        Text(isSyncing ? t(.syncingLabel) : (isAuthorized ? t(.syncWithHealthKit) : t(.allowHealthKit)))
+                                        settingsIcon("arrow.clockwise", .red)
+                                        Text(isSyncing ? t(.syncingLabel) : t(.syncWithHealthKit))
                                             .font(.pretendard(.regular, size: 16))
                                             .foregroundColor(background.mainText)
                                         Spacer()
@@ -1301,25 +1437,6 @@ struct SettingsTabView: View {
                                 }
                                 .buttonStyle(.plain)
                                 .disabled(isSyncing)
-                                rowDivider
-                                Button(action: {
-                                    isReconnecting = true
-                                    HealthKitService.shared.requestAuthorization { _ in
-                                        isReconnecting = false
-                                        showSettingsToast(t(.hkReconnected))
-                                    }
-                                }) {
-                                    HStack(spacing: 12) {
-                                        settingsIcon("heart.text.square", .pink)
-                                        Text(t(.reconnectHK))
-                                            .font(.pretendard(.regular, size: 16))
-                                            .foregroundColor(background.mainText)
-                                        Spacer()
-                                        if isReconnecting { ProgressView() }
-                                    }
-                                    .padding(.horizontal, 14).padding(.vertical, 13)
-                                }
-                                .buttonStyle(.plain)
                                 rowDivider
                                 Button(action: { showSourceFilterSheet = true }) {
                                     HStack(spacing: 12) {
@@ -1540,41 +1657,21 @@ struct SettingsTabView: View {
                                 .padding(.horizontal, 14).padding(.vertical, 13)
                                 if notificationSettings.isEnabled {
                                     rowDivider
-                                    HStack(spacing: 12) {
-                                        Color.clear.frame(width: 28, height: 28)
-                                        Text(t(.d7NotifLabel))
+                                    HStack {
+                                        Text(t(.reminderTimeLabel))
                                             .font(.pretendard(.regular, size: 15))
                                             .foregroundColor(background.mainText)
                                         Spacer()
-                                        Toggle("", isOn: $notificationSettings.d7Enabled)
-                                            .tint(accentColor).labelsHidden()
-                                            .onChange(of: notificationSettings.d7Enabled) { saveAll() }
+                                        DatePicker(
+                                            "",
+                                            selection: reminderTimeBinding,
+                                            displayedComponents: .hourAndMinute
+                                        )
+                                        .labelsHidden()
+                                        .datePickerStyle(.compact)
+                                        .tint(accentColor)
                                     }
-                                    .padding(.horizontal, 14).padding(.vertical, 11)
-                                    rowDivider
-                                    HStack(spacing: 12) {
-                                        Color.clear.frame(width: 28, height: 28)
-                                        Text(t(.d3NotifLabel))
-                                            .font(.pretendard(.regular, size: 15))
-                                            .foregroundColor(background.mainText)
-                                        Spacer()
-                                        Toggle("", isOn: $notificationSettings.d3Enabled)
-                                            .tint(accentColor).labelsHidden()
-                                            .onChange(of: notificationSettings.d3Enabled) { saveAll() }
-                                    }
-                                    .padding(.horizontal, 14).padding(.vertical, 11)
-                                    rowDivider
-                                    HStack(spacing: 12) {
-                                        Color.clear.frame(width: 28, height: 28)
-                                        Text(t(.d1NotifLabel))
-                                            .font(.pretendard(.regular, size: 15))
-                                            .foregroundColor(background.mainText)
-                                        Spacer()
-                                        Toggle("", isOn: $notificationSettings.d1Enabled)
-                                            .tint(accentColor).labelsHidden()
-                                            .onChange(of: notificationSettings.d1Enabled) { saveAll() }
-                                    }
-                                    .padding(.horizontal, 14).padding(.vertical, 11)
+                                    .padding(.horizontal, 14).padding(.vertical, 8)
                                 }
                                 if !notifAuthStatus.isEmpty {
                                     rowDivider
@@ -1703,6 +1800,21 @@ struct SettingsTabView: View {
                                     .padding(.horizontal, 14).padding(.vertical, 13)
                                 }
                                 rowDivider
+                                Button(action: { showOnboarding = true }) {
+                                    HStack(spacing: 12) {
+                                        settingsIcon("play.circle.fill", Color(hex: "#0EA5E9"))
+                                        Text(t(.replayTutorial))
+                                            .font(.pretendard(.regular, size: 16))
+                                            .foregroundColor(background.mainText)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12, weight: .semibold))
+                                            .foregroundColor(background.inkOff)
+                                    }
+                                    .padding(.horizontal, 14).padding(.vertical, 13)
+                                }
+                                .buttonStyle(.plain)
+                                rowDivider
                                 Button(action: {
                                     WidgetCenter.shared.reloadAllTimelines()
                                     showSettingsToast(t(.widgetRefreshed))
@@ -1753,6 +1865,16 @@ struct SettingsTabView: View {
                 }
             }
             .preferredColorScheme(background.colorScheme)
+            .alert(t(.hkGuideAlertTitle), isPresented: $showHKGuideAlert) {
+                Button(t(.hkGuideOpenButton)) {
+                    if let url = URL(string: "x-apple-health://") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(t(.cancelButton), role: .cancel) {}
+            } message: {
+                Text(t(.hkGuideAlertMessage))
+            }
             .confirmationDialog(
                 t(.resetConfirmMsg),
                 isPresented: $showResetConfirm,
@@ -1760,7 +1882,6 @@ struct SettingsTabView: View {
             ) {
                 Button(t(.resetConfirmButton), role: .destructive) {
                     SharedDataManager.shared.resetAll()
-                    NotificationManager.shared.cancelGoalReminders()
                     onReset()
                 }
                 Button(t(.cancelButton), role: .cancel) {}
@@ -2637,18 +2758,7 @@ struct CalendarView: View {
         allSessions.filter { isSameDay($0.date, selectedDate) }.sorted { $0.date > $1.date }
     }
 
-    private func currentStreak() -> Int {
-        let cal = Calendar.current
-        var streak = 0
-        var checkDate = cal.startOfDay(for: Date())
-        let runDays = Set(allSessions.map { cal.startOfDay(for: $0.date) })
-        while runDays.contains(checkDate) {
-            streak += 1
-            guard let prev = cal.date(byAdding: .day, value: -1, to: checkDate) else { break }
-            checkDate = prev
-        }
-        return streak
-    }
+    private func currentStreak() -> Int { streakFromSessions(allSessions) }
 
     private func monthYearString(_ date: Date) -> String {
         let f = DateFormatter()

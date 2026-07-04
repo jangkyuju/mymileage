@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>MotivationRun saves your stat component images to Photos so you can share them.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>MyMileage reads your running workouts from Apple Health to calculate your monthly progress.</string>
 	<key>NSHealthUpdateUsageDescription</key>

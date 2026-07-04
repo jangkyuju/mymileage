@@ -12,11 +12,6 @@ class NotificationManager {
     static let shared = NotificationManager()
     private init() {}
 
-    // 알림 ID 상수
-    private let idD7 = "motivationrun_goal_d7"
-    private let idD3 = "motivationrun_goal_d3"
-    private let idD1 = "motivationrun_goal_d1"
-
     // MARK: - 시스템 권한 요청
 
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
@@ -28,73 +23,82 @@ class NotificationManager {
         }
     }
 
-    // MARK: - 목표 리마인더 스케줄
-
-    /// 현재 월 기준 D-7, D-3, D-1 알림 스케줄
-    /// - 기존 동일 ID 알림은 먼저 제거 후 재등록
-    func scheduleGoalReminders(remaining: Double, goalType: GoalType,
-                               distanceUnit: DistanceUnit, settings: NotificationSettings) {
-        cancelGoalReminders()
-        guard settings.isEnabled && remaining > 0 else { return }
-
-        let calendar = Calendar.current
-        let now = Date()
-        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now)),
-              let startOfNextMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth) else { return }
-
-        let reminders: [(daysFromEnd: Int, enabled: Bool, id: String)] = [
-            (7, settings.d7Enabled, idD7),
-            (3, settings.d3Enabled, idD3),
-            (1, settings.d1Enabled, idD1),
-        ]
-
-        for r in reminders where r.enabled {
-            guard let fireDate = calendar.date(byAdding: .day, value: -r.daysFromEnd, to: startOfNextMonth),
-                  fireDate > now else { continue }
-
-            var components = calendar.dateComponents([.year, .month, .day], from: fireDate)
-            components.hour   = 9
-            components.minute = 0
-
-            let content = UNMutableNotificationContent()
-            content.title = L(.notifTitle, SharedDataManager.shared.getLanguage())
-            content.body  = notificationBody(remaining: remaining, goalType: goalType,
-                                             distanceUnit: distanceUnit, daysLeft: r.daysFromEnd)
-            content.sound = .default
-
-            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-            let request = UNNotificationRequest(identifier: r.id, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error = error {
-                    print("❌ [Notification] 등록 실패 (\(r.id)): \(error.localizedDescription)")
-                } else {
-                    print("🔔 [Notification] 등록 완료: D-\(r.daysFromEnd) → \(fireDate)")
-                }
+    /// 아직 권한을 물어본 적 없을 때(.notDetermined)만 요청.
+    /// 이미 결정된 경우 현재 허용 여부를 그대로 반환 (중복 팝업 방지).
+    func requestAuthorizationIfNotDetermined(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { s in
+            switch s.authorizationStatus {
+            case .notDetermined:
+                self.requestAuthorization(completion: completion)
+            case .authorized, .provisional, .ephemeral:
+                DispatchQueue.main.async { completion(true) }
+            default:
+                DispatchQueue.main.async { completion(false) }
             }
         }
     }
 
-    func cancelGoalReminders() {
-        UNUserNotificationCenter.current()
-            .removePendingNotificationRequests(withIdentifiers: [idD7, idD3, idD1])
-    }
+    // MARK: - 매일 습관 알림 (하루 1회)
 
-    // MARK: - 알림 본문 생성
-
-    private func notificationBody(remaining: Double, goalType: GoalType,
-                                  distanceUnit: DistanceUnit, daysLeft: Int) -> String {
+    /// 오늘부터 7일치, 하루 1회 `reminderHour`시 알림 예약.
+    /// - 일회성(repeats:false)이라 앱 진입 시 롤링으로 재예약된다.
+    func scheduleDailyReminder(hasRunToday: Bool, settings: NotificationSettings) {
+        cancelDailyReminder()
+        guard settings.isEnabled else { return }
         let lang = SharedDataManager.shared.getLanguage()
-        let unit = goalType.displayUnit(distanceUnit: distanceUnit, lang: lang)
-        let formatted: String
-        switch goalType {
-        case .distance: formatted = String(format: "%.1f\(unit)", remaining)
-        case .calories: formatted = "\(Int(remaining))\(unit)"
-        case .duration: formatted = String(format: "%.1f\(unit)", remaining)
-        }
-        if daysLeft == 1 {
-            return String(format: L(.notifBodyLastDay, lang), formatted)
-        } else {
-            return String(format: L(.notifBodyDaysFmt, lang), formatted, daysLeft)
+        let messages = dailyReminderMessages(lang: lang)
+        let startOffset = hasRunToday ? 1 : 0
+        for i in 0..<7 {
+            let day = startOffset + i
+            scheduleDailyNotif(
+                id: "daily_\(day)",
+                dayOffset: day,
+                hour: settings.reminderHour,
+                minute: settings.reminderMinute,
+                body: messages[i % messages.count]
+            )
         }
     }
+
+    func cancelDailyReminder() {
+        // 현재 daily_* + 레거시 retention_* 모두 청소 (업그레이드 대비)
+        let ids = (0..<8).flatMap { i in
+            ["daily_\(i)", "retention_am_\(i)", "retention_pm_\(i)"]
+        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+    }
+
+    private func scheduleDailyNotif(id: String, dayOffset: Int, hour: Int, minute: Int, body: String) {
+        let calendar = Calendar.current
+        let now = Date()
+        guard let targetDate = calendar.date(byAdding: .day, value: dayOffset, to: now) else { return }
+        var comps = calendar.dateComponents([.year, .month, .day], from: targetDate)
+        comps.hour   = hour
+        comps.minute = minute
+        // Skip if fire time already passed today
+        guard let fireDate = calendar.date(from: comps), fireDate > now else { return }
+        let content = UNMutableNotificationContent()
+        content.title = L(.notifTitle, SharedDataManager.shared.getLanguage())
+        content.body  = body
+        content.sound = .default
+        let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("❌ [DailyReminder] 등록 실패 (\(id)): \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func dailyReminderMessages(lang: AppLanguage) -> [String] {
+        return [
+            L(.dailyReminder1, lang),
+            L(.dailyReminder2, lang),
+            L(.dailyReminder3, lang),
+            L(.dailyReminder4, lang),
+            L(.dailyReminder5, lang),
+            L(.dailyReminder6, lang),
+        ]
+    }
+
 }

@@ -46,6 +46,49 @@ final class MotivationRunTests: XCTestCase {
         XCTAssertEqual(session.distanceKm, 3.5)
     }
 
+    // MARK: - remainingDaysInMonth (오늘 포함)
+
+    private func makeDate(_ y: Int, _ m: Int, _ d: Int, _ h: Int = 12, cal: Calendar) -> Date {
+        var comps = DateComponents()
+        comps.year = y; comps.month = m; comps.day = d; comps.hour = h
+        return cal.date(from: comps)!
+    }
+
+    private var testCalendar: Calendar {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "Asia/Seoul")!
+        return cal
+    }
+
+    func testRemainingDaysMidMonthIncludesToday() throws {
+        let cal = testCalendar
+        // 6/15 → 오늘 포함 16일 (15~30)
+        let date = makeDate(2026, 6, 15, 12, cal: cal)
+        XCTAssertEqual(remainingDaysInMonth(from: date, calendar: cal), 16)
+    }
+
+    func testRemainingDaysLastDayIsOne() throws {
+        let cal = testCalendar
+        // 6/30 23시 → 오늘만 남음 = 1
+        let date = makeDate(2026, 6, 30, 23, cal: cal)
+        XCTAssertEqual(remainingDaysInMonth(from: date, calendar: cal), 1)
+    }
+
+    func testRemainingDaysFirstDayIsFullMonth() throws {
+        let cal = testCalendar
+        // 6/1 00시 → 6월 전체 30일
+        let date = makeDate(2026, 6, 1, 0, cal: cal)
+        XCTAssertEqual(remainingDaysInMonth(from: date, calendar: cal), 30)
+    }
+
+    func testRemainingDaysTimeOfDayIrrelevant() throws {
+        let cal = testCalendar
+        let early = remainingDaysInMonth(from: makeDate(2026, 6, 15, 0, cal: cal), calendar: cal)
+        let late  = remainingDaysInMonth(from: makeDate(2026, 6, 15, 23, cal: cal), calendar: cal)
+        XCTAssertEqual(early, late)
+        XCTAssertEqual(early, 16)
+    }
+
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

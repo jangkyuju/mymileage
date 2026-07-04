@@ -48,8 +48,7 @@
 
 **Do you know exactly how much you need to run today to hit your monthly goal?**
 
-Most runners set monthly distance targets, mileages — but halfway through the month, they lose track. 
-How many miles are left? How many runs do you have time for? Do you even remember what your goal was?
+Most runners set monthly distance targets — but halfway through the month, they lose track. How many miles are left? How many runs do you have time for? Do you even remember what your goal was?
 
 **MyMileage - Every Mile Counts** was built to answer those questions instantly. Every time you open the app — or just by glancing at your widget on the home screen — your progress is always in sight.
 
@@ -57,42 +56,48 @@ How many miles are left? How many runs do you have time for? Do you even remembe
 
 **What makes MyMileage different**
 
-Popular running apps like Strava or Nike Run Club excel at recording individual runs. But none of them tell you: *"You've run 42 km this month. Your goal is 80 km. You have 8 days left and run every other day — so you need 9.5 km per session."* That specific, actionable number is exactly what MyMileage provides, with easy access right from your widgets on both home screen and lock screen. 
+Popular running apps like Strava or Nike Run Club excel at recording individual runs. But none of them tell you: *"You've run 42 km this month. Your goal is 80 km. You have 8 days left and run every other day — so you need 9.5 km per session."* That specific, actionable number is exactly what MyMileage provides, with easy access right from your widgets on both home screen and lock screen.
 
 ---
 
 **Core Features**
 
 **Monthly Goal Tracking**
-Set a monthly target for distance (km or miles), calories burned, or total running duration. The dashboard shows a daily bar chart and monthly summary with your cumulative progress — and most importantly, exactly how much you need per remaining session to reach your goal.
+Set a monthly target for distance (km or miles), calories burned, or total running duration. The dashboard shows a daily bar chart and 6 monthly summary stats — distance, duration, calories, activity count, average pace, and per-run distance. Most importantly, it shows exactly how much you need per remaining session to reach your goal.
 
 **Mileage Goal at a Glance**
-The current month displays a compact banner showing your goal and remaining days, so you always know where you stand without scrolling.
+A hero banner shows your monthly goal progress ring and remaining days so you always know where you stand — no scrolling needed. Navigate freely between past months to review your history.
 
 **Apple Health Integration**
-MyMileage reads your running workouts directly from Apple Health. No manual entry, no third-party account required. Just grant permission and your data appears instantly.
+MyMileage reads your running workouts directly from Apple Health. No manual entry, no third-party account required. Just grant permission and your data appears instantly. Filter by data source (Strava, Garmin, Apple Watch, etc.) to count only the workouts you want.
 
 **Smart Per-Session Pace**
 Tell the app how often you run: daily, every 2 days, or every 3 days. MyMileage calculates the required amount per session based on what's left and how many days remain — automatically updating each time you sync.
+
+**Calendar & Streak**
+A monthly heatmap calendar shows running intensity by day at a glance. Tap any date to see session cards, then tap a session card to open the full detail view. A streak counter tracks how many consecutive days you've run.
 
 **End-of-Month Reminders**
 Enable optional push notifications at D-7, D-3, and D-1 before month-end. If you haven't reached your goal yet, the app sends a personalized reminder telling you exactly how much remains.
 
 **Home Screen Widget**
-Add the widget to your Home Screen in medium (2×4) size. Choose from 4 layout styles — Minimal, Compact, Balanced, or Complete.
+Add the widget to your Home Screen in medium size. Choose from 4 layout styles — Minimal, Compact, Balanced, or Complete — to match your style.
+
+**Complete Run Log**
+Browse your full running history, grouped by month. Each entry shows date, distance, duration, calories, and pace. Tap any session to open the detail view.
+
+**Session Detail & Run Journal**
+Tap any session card in the Log or Calendar tab to open a dedicated detail screen. View your stats (distance, pace, duration, calories) for that run, then record a personal note and rate the difficulty — Very Easy to Very Hard — using an interactive slider. Journal entries are saved per workout and persist across sessions.
 
 **Pro Features (one-time $1.99)**
 Unlock two premium features with a single purchase — no subscription:
 
-- **Custom Widget Photo Background** — Set your own photo as the widget background. Pinch to zoom and drag to position.
+- **Custom Widget Photo Background** — Build a gallery of up to 10 photos and set any one as your widget background. Pinch to zoom and drag to position the crop.
 - **Lock Screen Widgets** — Add circular or rectangular widgets to your lock screen for instant progress tracking without unlocking your phone.
-
-**Complete Run Log**
-Browse your full running history, grouped by month. Each entry shows date, distance, duration, calories, and pace.
 
 **Fully Customizable**
 
-- 9 accent colors with automatic contrast adjustment
+- 6 accent colors with automatic contrast adjustment
 - Dark and Light themes
 - km or miles
 - 6 languages: English, Korean, German, French, Chinese, Spanish
@@ -130,35 +135,41 @@ Strava, Nike Run Club 같은 인기 러닝 앱은 개별 러닝 기록에는 탁
 **주요 기능**
 
 **월간 목표 설정**
-거리(km/mi), 칼로리, 러닝 시간 중 원하는 목표 유형과 수치를 설정합니다. 대시보드에서 일별 바 차트와 월간 요약을 통해 진행 상황을 한눈에 확인할 수 있습니다.
+거리(km/mi), 칼로리, 러닝 시간 중 원하는 목표 유형과 수치를 설정합니다. 대시보드에서 일별 바 차트와 6가지 월간 요약(거리·시간·칼로리·활동 수·평균 페이스·회당 거리)을 한눈에 확인할 수 있습니다.
 
 **마일리지 목표 한눈에 보기**
-현재 월에는 이번 달 목표와 남은 일수가 배너로 표시되어, 스크롤 없이도 현재 상태를 즉시 파악할 수 있습니다.
+목표 진행률 링과 남은 일수가 배너로 표시되어, 스크롤 없이도 현재 상태를 즉시 파악할 수 있습니다. 과거 월을 자유롭게 탐색해 이력도 확인할 수 있습니다.
 
 **Apple Health 연동**
-Apple Health에 기록된 러닝 운동 데이터를 자동으로 불러옵니다. 별도 계정이나 수동 입력이 필요 없습니다.
+Apple Health에 기록된 러닝 운동 데이터를 자동으로 불러옵니다. 별도 계정이나 수동 입력이 필요 없습니다. Strava, Garmin, Apple Watch 등 데이터 소스별로 집계 대상을 필터링할 수 있습니다.
 
 **스마트 페이스 계산**
 러닝 빈도(매일·격일·3일마다)를 설정하면, 남은 기간과 횟수를 바탕으로 회당 필요량을 자동 계산합니다.
+
+**캘린더 & 스트릭**
+월간 히트맵 캘린더로 날짜별 러닝 강도를 한눈에 확인하고, 날짜를 탭하면 해당 일의 세션 카드가 표시됩니다. 세션 카드를 다시 탭하면 전체 세션 상세 화면으로 이동합니다. 연속 러닝 일수(스트릭)도 함께 표시됩니다.
 
 **월말 목표 리마인더**
 D-7, D-3, D-1 시점에 목표 미달성 시 맞춤형 푸시 알림을 보내드립니다. 목표까지 남은 양을 알림 문자에 직접 표시해 드립니다.
 
 **홈 화면 위젯**
-중형(2×4) 위젯으로 홈 화면에서 진행률을 바로 확인하세요. 4가지 레이아웃(미니멀, 컴팩트, 밸런스, 컴플리트) 중 선택할 수 있습니다.
+중형 위젯으로 홈 화면에서 진행률을 바로 확인하세요. 4가지 레이아웃(미니멀, 컴팩트, 밸런스, 컴플리트) 중 선택할 수 있습니다.
+
+**전체 기록 로그**
+월별로 그룹화된 모든 러닝 기록을 조회합니다. 날짜, 거리, 시간, 칼로리, 페이스를 제공합니다. 세션 카드를 탭하면 상세 화면으로 이동합니다.
+
+**세션 상세 & 러닝 일기**
+기록 탭 또는 캘린더 탭에서 세션 카드를 탭하면 전용 상세 화면이 열립니다. 해당 러닝의 거리·페이스·시간·칼로리를 확인하고, 난이도(매우 쉬움~매우 힘듦)를 슬라이더로 기록하거나 자유로운 메모를 남길 수 있습니다. 일기 데이터는 워크아웃별로 저장되어 앱을 닫아도 유지됩니다.
 
 **Pro 기능 (일회성 $1.99)**
 한 번의 구매로 두 가지 프리미엄 기능을 해제합니다 — 구독이 아닙니다:
 
-- **위젯 배경 사진** — 원하는 사진을 위젯 배경으로 설정. 핀치 줌과 드래그로 위치 조절 가능.
+- **위젯 배경 사진** — 최대 10장의 사진 갤러리에서 원하는 사진을 위젯 배경으로 설정. 핀치 줌과 드래그로 위치 조절 가능.
 - **잠금화면 위젯** — 원형/직사각형 잠금화면 위젯으로 폰을 켜지 않고도 즉시 진행률 확인.
-
-**전체 기록 로그**
-월별로 그룹화된 모든 러닝 기록을 조회합니다. 날짜, 거리, 시간, 칼로리, 페이스를 제공합니다.
 
 **완전한 개인화**
 
-- 9가지 포인트 색상 (대비 자동 조절)
+- 6가지 포인트 색상 (대비 자동 조절)
 - 다크·라이트 테마
 - km/마일 단위
 - 6개 언어 지원
@@ -191,44 +202,59 @@ running,mileage,monthly goal,fitness tracker,health,distance,pace calculator,wid
 
 ---
 
-**English:**
+English:
 
 Thank you for reviewing MyMileage - Every Mile Counts.
 
-**What this app does:**
+What this app does:
 MyMileage helps runners track their monthly running goals. Users set a monthly target (distance, calories, or duration), sync with Apple Health to import their runs, and the app calculates exactly how much they need to run per remaining session to reach their goal by month-end.
 
-**How to test core features:**
+How to test core features:
 
-1. **Apple Health Permission**
-   On first launch, go to the Settings tab and tap "Sync Apple Health" to authorize read access. The app requests permission for: Running Workouts, Walking+Running Distance, and Active Energy Burned. If testing on a device without running data, you can manually add a workout in the Health app (Browse → Workouts → Add Data) and then tap "Sync Apple Health" in the app.
-2. **Goal Setting**
-   In the Settings tab, tap "Set Goal". Select a goal type (Distance / Calories / Duration), enter a target value, and choose your run frequency.
-3. **Dashboard**
-   After syncing, the Dashboard tab shows a mileage goal banner (current month only), a daily bar chart, and monthly summary cards with distance, duration, calories, average pace, and per-run distance.
-4. **Run Log**
-   Tap the "Log" tab to see all running history grouped by month, with each session showing distance, duration, calories, and pace.
-5. **Widget**
-   Long-press on the Home Screen → tap "+" → search "MyMileage" to add the medium widget. You can choose from 4 layout styles (Minimal, Compact, Balanced, Complete) in the Settings tab under "Widget".
-6. **Pro In-App Purchase**
-   In the Settings tab, a "Pro" section appears for non-Pro users. Tap "Upgrade to Pro" ($1.99 one-time) to unlock: (a) custom widget background photo, and (b) lock screen widgets (circular + rectangular). After purchase, the photo picker appears in the Widget section, and lock screen widgets display running data instead of a lock icon. To test on a device without a sandbox account, use the StoreKit Configuration file included in the project (Products.storekit). "Restore Purchase" button is also available.
-7. **Notifications (Goal Reminders)**
-   Go to Settings tab → Notifications section → enable "Goal Reminder". Sub-toggles allow D-7, D-3, and D-1 reminders. Notifications fire at 9:00 AM on the respective day only if the goal has not been reached yet.
-8. **Customization**
-   The Settings tab has four sections: Data (goal & sync), Widget (layout & Pro background photo), Pro (upgrade & restore), and General (accent color, theme, distance unit, language).
+1. Apple Health Permission
+   On first launch, go to the Settings tab and tap "Sync Apple Health" to authorize read access. The app requests permission for: Running Workouts, Walking+Running Distance, Active Energy Burned, Step Count, and Heart Rate. If the test device has no running data, add a workout in the Health app (Browse → Workouts → Add Data) and re-sync.
 
-**No login required.** The app works entirely offline with local data storage. No account creation is needed.
+2. Goal Setting
+   In the Settings tab, tap "Set Goal". Select a goal type (Distance / Calories / Duration), enter a target value, and choose your run frequency (Daily / Every 2 Days / Every 3 Days).
 
-**Permissions used:**
+3. Dashboard
+   After syncing, the Dashboard tab shows: a mileage goal banner with a progress ring, a daily bar chart switchable between Distance / Duration / Calories, and 6 monthly summary cards. Use the chevron buttons to navigate to past months.
 
-- HealthKit (read-only): To import running workout data
+4. Calendar
+   The Calendar tab shows a monthly heatmap (intensity by distance), a current streak counter, and session cards when tapping a date. Tap a session card to open the Session Detail screen. Navigate between months using the chevron buttons.
+
+5. Run Log
+   Tap the "Log" tab to see all running history grouped by month, with each session showing distance, duration, calories, and pace. Tap any session card to open the Session Detail screen.
+
+6. Session Detail & Run Journal
+   The Session Detail screen shows the run's distance, pace, duration, and calories in a 2×2 stat grid. Below are two journal cards: a Difficulty slider (Very Easy → Very Hard) and a free-text Notes field. Entries auto-save and persist across app launches. Note: manually-added workouts without a HealthKit ID will show journal unavailable.
+
+7. Data Source Filter
+   In Settings → Data → "Data Sources", you can filter which apps' workouts are counted (e.g., Strava, Garmin, Apple Watch only). Saving triggers a re-sync automatically.
+
+8. Widget
+   Long-press on the Home Screen → tap "+" → search "MyMileage" to add the medium widget. You can choose from 4 layout styles (Minimal, Compact, Balanced, Complete) in Settings → Widget → "Widget Layout".
+
+9. Pro In-App Purchase
+   In the Settings tab, tap "Upgrade to Pro" ($1.99 one-time) to unlock: (a) custom widget background photo gallery (up to 10 photos, cropped to widget ratio), and (b) lock screen widgets (circular + rectangular). "Restore Purchase" button is also available.
+
+10. Notifications (Goal Reminders)
+    Go to Settings → Notifications → enable "Goal Reminder". Sub-toggles allow D-7, D-3, and D-1 reminders. Notifications fire at 9:00 AM on the respective day only if the goal has not been reached yet.
+
+11. Customization
+    Settings → General: 6 accent colors, Dark/Light theme, km/miles, 6 languages. Settings → Widget: 4 widget layout styles.
+
+No login required. The app works entirely offline with local data storage. No account creation is needed.
+
+Permissions used:
+- HealthKit (read-only): Running workouts, distance, calories, step count, heart rate
 - Notifications (optional): For monthly goal reminders
+- Photo Library (optional, Pro only): To set a widget background photo
 
-**In-App Purchase:**
-
-- Product ID: `com.jangkyuju.motivationrun.pro`
+In-App Purchase:
+- Product ID: com.jangkyuju.motivationrun.pro
 - Type: Non-Consumable (one-time $1.99)
-- Features unlocked: Custom widget background photo, Lock screen widgets
+- Features unlocked: Custom widget background photo gallery (up to 10 photos), Lock screen widgets
 
 ---
 
@@ -242,13 +268,16 @@ MyMileage는 월간 러닝 목표를 관리하는 앱입니다. 사용자는 월
 **주요 기능 테스트 방법:**
 
 1. **Apple Health 권한**: 설정 탭에서 "Apple Health 동기화" 탭 → 권한 허용. 테스트 기기에 러닝 데이터가 없을 경우, iOS Health 앱에서 수동으로 워크아웃을 추가한 후 동기화하시면 됩니다.
-2. **목표 설정**: 설정 탭 → "목표 설정" 탭 → 목표 유형 및 수치 입력.
-3. **대시보드**: 동기화 후 대시보드 탭에서 마일리지 목표 배너, 일별 바 차트, 월간 요약 카드를 확인합니다.
-4. **기록 탭**: "기록" 탭에서 전체 러닝 히스토리를 월별로 확인합니다.
-5. **위젯**: 홈 화면 길게 누름 → "+" → "MyMileage" 검색. 설정 탭의 Widget 섹션에서 4가지 레이아웃 선택 가능.
-6. **Pro 인앱 구매**: 설정 탭에 "Pro" 섹션이 표시됩니다. "Pro 업그레이드" ($1.99 일회성) 탭 → (a) 위젯 배경 사진 커스텀, (b) 잠금화면 위젯(원형+직사각형) 해제. 구매 후 Widget 섹션에 사진 선택 버튼이 활성화되고, 잠금화면 위젯에 러닝 데이터가 표시됩니다. "구매 복원" 버튼도 제공됩니다.
-7. **알림**: 설정 탭 → 알림 → "목표 리마인더 알림" 활성화. D-7, D-3, D-1 알림 개별 설정 가능.
-8. **개인화**: 설정 탭은 Data(목표·동기화), Widget(레이아웃·Pro 배경사진), Pro(업그레이드·복원), General(포인트 색상·테마·거리단위·언어) 네 섹션으로 구성.
+2. **목표 설정**: 설정 탭 → "목표 설정" → 목표 유형(거리/칼로리/시간) 및 수치, 러닝 빈도 입력.
+3. **대시보드**: 동기화 후 대시보드 탭에서 마일리지 목표 배너(진행률 링), 일별 바 차트(거리/시간/칼로리 전환), 6개 월간 요약 카드(거리·시간·칼로리·활동 수·평균 페이스·회당 거리)를 확인합니다. 화살표 버튼으로 과거 월을 탐색할 수 있습니다.
+4. **캘린더**: 캘린더 탭에서 월별 히트맵과 연속 러닝 스트릭을 확인하고, 날짜를 탭하면 해당 일의 세션 카드가 표시됩니다. 세션 카드를 탭하면 세션 상세 화면으로 이동합니다.
+5. **기록 탭**: "기록" 탭에서 전체 러닝 히스토리를 월별로 확인합니다. 세션 카드를 탭하면 세션 상세 화면으로 이동합니다.
+6. **세션 상세 & 러닝 일기**: 기록 탭 또는 캘린더 탭에서 세션 카드를 탭하면 세션 상세 화면이 열립니다. 거리·페이스·시간·칼로리를 확인하고, 난이도 슬라이더(매우 쉬움~매우 힘듦)와 메모 입력란에 기록을 남길 수 있습니다. 일기는 앱 종료 후에도 유지됩니다.
+7. **데이터 소스 필터**: 설정 → 데이터 → "데이터 소스"에서 집계할 앱(Strava, Garmin, Apple Watch 등)을 선택할 수 있습니다. 저장 시 자동으로 재동기화됩니다.
+8. **위젯**: 홈 화면 길게 누름 → "+" → "MyMileage" 검색. 설정 → 위젯 → "위젯 레이아웃"에서 4가지 디자인 선택 가능.
+9. **Pro 인앱 구매**: 설정 탭 → "Pro 업그레이드" ($1.99 일회성) → (a) 위젯 배경 사진 갤러리(최대 10장 추가·크롭·활성화), (b) 잠금화면 위젯(원형+직사각형) 해제. "구매 복원" 버튼도 제공됩니다.
+10. **알림**: 설정 탭 → 알림 → "목표 리마인더 알림" 활성화. D-7, D-3, D-1 알림 개별 설정 가능.
+11. **개인화**: 설정 → 일반: 6가지 포인트 색상, 다크/라이트 테마, km/마일, 6개 언어. 설정 → 위젯: 4가지 레이아웃.
 
 **계정 불필요.** 로그인 없이 기기 내 로컬 저장 방식으로 동작합니다.
 
@@ -271,8 +300,10 @@ App Store 제출 시 Privacy Policy URL이 필요합니다. 아래 내용을 기
 
 **수집 데이터:**
 
-- Apple Health 러닝 운동 데이터 (사용자 승인 후 읽기 전용)
-- 앱 설정값 (목표, 테마, 언어 등) — 기기 로컬 저장
+- Apple Health 러닝 운동 데이터 (사용자 승인 후 읽기 전용): 워크아웃, 거리, 칼로리, 걸음 수, 심박수
+- 앱 설정값 (목표, 테마, 언어, 데이터 소스 필터 등) — 기기 로컬 저장
+- 위젯 배경 사진 (Pro, 선택적) — App Group 컨테이너 로컬 저장
+- 러닝 일기 데이터 (난이도·메모, 선택적) — 기기 로컬 저장 (UserDefaults)
 - 구매 상태 (Pro 해제 여부) — 기기 로컬 저장 + Apple StoreKit 서버 검증
 
 **미수집 데이터:**
@@ -306,7 +337,7 @@ App Store 제출 시 Privacy Policy URL이 필요합니다. 아래 내용을 기
 3. **"목표를 세워도 중간에 잊어버린다."**
    → 홈 화면 위젯이 앱 실행 없이도 현재 진행률과 회당 필요량을 상시 표출한다.
 4. **"러닝 기록이 여러 앱에 흩어져 있다."**
-   → Apple Health에 이미 있는 데이터를 그대로 활용하므로 별도 기기나 계정이 필요 없다.
+   → Apple Health에 이미 있는 데이터를 그대로 활용하므로 별도 기기나 계정이 필요 없다. 소스 필터로 원하는 앱의 기록만 집계할 수도 있다.
 
 ### 타겟 사용자
 
@@ -336,10 +367,12 @@ App Store 제출 시 Privacy Policy URL이 필요합니다. 아래 내용을 기
 ```
 MotivationRun/
 ├── MotivationRunApp.swift          # 앱 엔트리포인트
-├── AppDelegate.swift               # URL scheme 처리
-├── ContentView.swift               # 대시보드 탭 + 설정 탭 UI
-├── LogView.swift                   # 기록 탭 (월별 러닝 로그)
+├── ContentView.swift               # 대시보드·캘린더·설정 탭 UI (GoalSettingView 포함)
+├── LogView.swift                   # 기록 탭 (월별 러닝 로그, RunSessionCard)
+├── RunSessionDetailView.swift      # 세션 상세 화면 (통계 2×2 그리드, 러닝 일기)
+├── PhotoGalleryView.swift          # 위젯 배경 사진 갤러리 + 크롭 (Pro)
 ├── Models.swift                    # 데이터 모델 (GoalType, RunSession, MonthlyStats 등)
+├── ModernComponents.swift          # 공통 UI 컴포넌트 (탭바, 카드, 차트 등)
 ├── LocalizedStrings.swift          # 6개 언어 다국어 지원
 ├── HealthKitService.swift          # HealthKit 권한 요청 및 데이터 쿼리
 ├── SharedDataManager.swift         # App Group UserDefaults 관리 (앱 ↔ 위젯 공유)
@@ -347,12 +380,10 @@ MotivationRun/
 ├── StoreManager.swift              # StoreKit 2 Pro 구매/복원 관리
 ├── Products.storekit               # StoreKit 로컬 테스트 설정
 ├── MotivationRun.entitlements      # HealthKit + App Group 권한
-├── Info.plist                      # HealthKit 사용 설명문
-├── StravaService.swift             # (미사용 stub)
-└── KeychainManager.swift           # (미사용 stub)
+└── Info.plist                      # HealthKit 사용 설명문
 
 MotivationRunWidget/
-├── MotivationRunWidget.swift       # 위젯 뷰 (Minimal/Compact/Balanced/Complete)
+├── MotivationRunWidget.swift       # 위젯 뷰 (Minimal/Compact/Balanced/Complete + Lock Screen)
 ├── AppIntent.swift                 # WidgetKit App Intent
 ├── Info.plist                      # 위젯 확장 설정
 └── Assets.xcassets/                # 위젯 에셋
@@ -370,6 +401,7 @@ MotivationRunWidget/
 | 외부 라이브러리 제로             | 의존성 관리 부담 제거, 빌드 속도 최적화, 장기 유지보수 용이  |
 | 6개 언어 인라인 관리             | Localizable.strings 대비 컴파일 타임 검증 가능, 누락 방지    |
 | 일회성 IAP (구독 아님)           | 사용자 부담 최소화, 구독 피로감 방지, 구현 단순화            |
+| 데이터 소스 필터                 | Garmin/Strava/Apple Watch 등 소스 혼용 유저 대응             |
 
 ---
 

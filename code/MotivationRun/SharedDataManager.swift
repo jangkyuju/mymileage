@@ -83,13 +83,13 @@ class SharedDataManager {
 
     func getThemeAccent() -> ThemeAccent {
         guard let raw = userDefaults?.string(forKey: "themeAccent"),
-              let accent = ThemeAccent(rawValue: raw) else { return .yellow }
+              let accent = ThemeAccent(rawValue: raw) else { return .blue }
         return accent
     }
 
     func getThemeBackground() -> ThemeBackground {
         guard let raw = userDefaults?.string(forKey: "themeBackground"),
-              let bg = ThemeBackground(rawValue: raw) else { return .black }
+              let bg = ThemeBackground(rawValue: raw) else { return .white }
         return bg
     }
 
@@ -326,6 +326,9 @@ class SharedDataManager {
         if let url = widgetBgImageURL { try? FileManager.default.removeItem(at: url) }
         if let dir = galleryDirectoryURL { try? FileManager.default.removeItem(at: dir) }
         UserDefaults.standard.removeObject(forKey: "hkAuthRequested")
+        for key in UserDefaults.standard.dictionaryRepresentation().keys where key.hasPrefix("celebratedMonth_") {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
         print("🗑️ [SharedDataManager] 전체 데이터 초기화 완료")
     }
 

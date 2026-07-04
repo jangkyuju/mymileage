@@ -58,9 +58,6 @@ enum LK: String {
     case distUnitSection
     case notificationsSection
     case goalReminderToggle
-    case d7NotifLabel
-    case d3NotifLabel
-    case d1NotifLabel
     case notifPermError
     case reconnectHK
     case forceRefreshWidget
@@ -78,10 +75,8 @@ enum LK: String {
     case widgetTotalGoal
     case widgetRemainingPrefix
     case widgetPerRunUnit
-    // Notifications (format strings with %@/%d)
+    // Notifications
     case notifTitle
-    case notifBodyDaysFmt           // "%@ remaining. Run in %d days! 💪"
-    case notifBodyLastDay           // "%@ remaining. Last chance tomorrow! 💪"
     // Help
     case helpTitle
     // Help — section headers
@@ -210,6 +205,62 @@ enum LK: String {
     case difficultyVeryHard
     case journalUnavailable
     case doneButton
+    // Onboarding
+    case onbSkip
+    case onbNext
+    case onbStart
+    case onbLanguageTitle
+    case onbWelcomeTitle
+    case onbWelcomeBody
+    case onbHealthTitle
+    case onbHealthBody
+    case onbHealthGuide
+    case onbHealthAllowAll
+    // Onboarding — data source page
+    case onbSourceTitle
+    case onbSourceGuide
+    case onbSourceBody
+    case onbSourceAllLabel
+    case onbGoalTitle
+    case onbGoalBody
+    case onbDoneTitle
+    case onbDoneBody
+    case replayTutorial
+    // Onboarding survey — Q1 (monthly km)
+    case onbQ1Title
+    case onbQ1Rarely
+    case onbQ1Under30
+    case onbQ1Under60
+    case onbQ1Under100
+    case onbQ1Over100
+    // Onboarding survey — Q2 (longest single run)
+    case onbQ2Title
+    case onbQ2Under3
+    case onbQ2Under5
+    case onbQ2Under10
+    case onbQ2Under20
+    case onbQ2Over20
+    // Onboarding survey — Q3 (frequency)
+    case onbQ3Title
+    case onbQ3Daily
+    case onbQ3ThreeToFour
+    case onbQ3OneToTwo
+    case onbQ3Rarely
+    // Onboarding goal-type question
+    case onbGoalTypeQ
+    // Onboarding goal suggestion
+    case onbSuggestionTitle
+    case onbSuggestionBody
+    case onbSuggestionAdjust
+    // Daily habit reminder settings UI
+    case reminderTimeLabel
+    // Daily habit reminder body messages (1-6, rotating)
+    case dailyReminder1, dailyReminder2, dailyReminder3
+    case dailyReminder4, dailyReminder5, dailyReminder6
+    // HealthKit guide alert
+    case hkGuideAlertTitle
+    case hkGuideAlertMessage
+    case hkGuideOpenButton
 }
 
 // MARK: - Global Localization Function
@@ -259,12 +310,28 @@ private enum Strings {
             .bgThemeSection:        "Background",
             .distUnitSection:       "Distance Unit",
             .notificationsSection:  "Notifications",
-            .goalReminderToggle:    "Goal Reminder",
-            .d7NotifLabel:          "D-7 (7 days before, 9 AM)",
-            .d3NotifLabel:          "D-3 (3 days before, 9 AM)",
-            .d1NotifLabel:          "D-1 (day before, 9 AM)",
+            .goalReminderToggle:    "Daily habit reminder",
             .notifPermError:        "Notification permission required. Enable it in the Settings app.",
             .reconnectHK:           "Reconnect Apple Health",
+            .onbSkip:               "Skip",
+            .onbNext:               "Next",
+            .onbStart:              "Get Started",
+            .onbLanguageTitle:      "Choose your language",
+            .onbWelcomeTitle:       "Welcome to MyMileage",
+            .onbWelcomeBody:        "Track your monthly running goal and stay motivated, every mile of the way.",
+            .onbHealthTitle:        "Connect Apple Health",
+            .onbHealthBody:         "MyMileage reads your running workouts from Apple Health to track your progress. Your data stays on your device.",
+            .onbHealthGuide:        "Open the Settings tab and tap \"Allow Apple Health,\" then turn on every item.",
+            .onbHealthAllowAll:     "Turn On All",
+            .onbSourceTitle:        "Where your runs come from",
+            .onbSourceGuide:        "Pick which apps your runs are pulled from",
+            .onbSourceBody:         "Runs sync from apps connected to Apple Health. Use every source, or pick only the apps you want.",
+            .onbSourceAllLabel:     "All Sources",
+            .onbGoalTitle:          "Set Your Goal",
+            .onbGoalBody:           "Choose a monthly target — distance, calories, or time — and we'll show how much is left and your pace.",
+            .onbDoneTitle:          "You're All Set",
+            .onbDoneBody:           "Sync anytime from Settings, and add the widget to your home screen to stay on track.",
+            .replayTutorial:        "View Tutorial Again",
             .forceRefreshWidget:    "Force Refresh Widget",
             .versionLabel:          "Version",
             .resetDataButton:       "Reset All Data",
@@ -278,9 +345,7 @@ private enum Strings {
             .widgetTotalGoal:       "Mileage Goal",
             .widgetRemainingPrefix: "Remaining",
             .widgetPerRunUnit:      "/run",
-            .notifTitle:            "🏃 Monthly Goal Reminder",
-            .notifBodyDaysFmt:      "%@ remaining. Run in %d days! 💪",
-            .notifBodyLastDay:      "%@ remaining. Last chance tomorrow! 💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "How to use MyMileage",
             .longDateFormat:        "MMMM d",
             .shortDateFormat:       "M/d",
@@ -387,6 +452,37 @@ private enum Strings {
             .difficultyHard:            "Hard",
             .difficultyVeryHard:        "Very Hard",
             .journalUnavailable:        "Sync with HealthKit to enable journaling",
+            .onbQ1Title:                "How far do you run per month on average?",
+            .onbQ1Rarely:               "Rarely run",
+            .onbQ1Under30:              "Under 30 km",
+            .onbQ1Under60:              "Under 60 km",
+            .onbQ1Under100:             "Under 100 km",
+            .onbQ1Over100:              "100 km or more",
+            .onbQ2Title:                "How far is your typical run?",
+            .onbQ2Under3:               "Under 3 km",
+            .onbQ2Under5:               "Around 5 km",
+            .onbQ2Under10:              "Around 10 km",
+            .onbQ2Under20:              "Around 20 km",
+            .onbQ2Over20:               "20 km or more",
+            .onbQ3Title:                "How often do you run?",
+            .onbQ3Daily:                "Every day",
+            .onbQ3ThreeToFour:          "3–4 times a week",
+            .onbQ3OneToTwo:             "1–2 times a week",
+            .onbQ3Rarely:               "Occasionally",
+            .onbGoalTypeQ:              "What would you like to track?",
+            .onbSuggestionTitle:        "Your Goal",
+            .onbSuggestionBody:         "Based on your running history, we suggest:",
+            .onbSuggestionAdjust:       "Drag the slider to adjust",
+            .reminderTimeLabel:         "Reminder time",
+            .dailyReminder1:            "Time to run! 🏃 Your goal is waiting.",
+            .dailyReminder2:            "Lace up and go 👟 Every km counts.",
+            .dailyReminder3:            "A short run today keeps your momentum going.",
+            .dailyReminder4:            "Your monthly goal is waiting — go grab a mile.",
+            .dailyReminder5:            "Keep the streak alive — even a short run counts.",
+            .dailyReminder6:            "Don't let today slip by without moving. ⚡",
+            .hkGuideAlertTitle:         "Manage Health Permissions",
+            .hkGuideAlertMessage:       "Open the Health app → Sharing tab → Apps → MyMileage to manage permissions.",
+            .hkGuideOpenButton:         "Open Health App",
         ],
 
         // ─────────── KOREAN ───────────
@@ -425,12 +521,28 @@ private enum Strings {
             .bgThemeSection:        "배경 테마",
             .distUnitSection:       "거리 단위",
             .notificationsSection:  "알림",
-            .goalReminderToggle:    "목표 리마인더 알림",
-            .d7NotifLabel:          "D-7 알림 (7일 전 오전 9시)",
-            .d3NotifLabel:          "D-3 알림 (3일 전 오전 9시)",
-            .d1NotifLabel:          "D-1 알림 (전날 오전 9시)",
+            .goalReminderToggle:    "매일 습관 알림",
             .notifPermError:        "알림 권한이 필요합니다. 설정 앱에서 허용해주세요.",
             .reconnectHK:           "Apple Health 재연동",
+            .onbSkip:               "건너뛰기",
+            .onbNext:               "다음",
+            .onbStart:              "시작하기",
+            .onbLanguageTitle:      "언어를 선택하세요",
+            .onbWelcomeTitle:       "MyMileage에 오신 걸 환영해요",
+            .onbWelcomeBody:        "매달 러닝 목표를 추적하고, 달리는 모든 순간 동기부여를 받아보세요.",
+            .onbHealthTitle:        "Apple Health 연동",
+            .onbHealthBody:         "MyMileage는 Apple Health의 러닝 기록을 읽어 진행 상황을 추적해요. 데이터는 기기에만 저장됩니다.",
+            .onbHealthGuide:        "설정 탭에서 'Apple Health 권한 허용'을 누른 뒤, 모든 항목을 켜 주세요.",
+            .onbHealthAllowAll:     "모두 켜기",
+            .onbSourceTitle:        "러닝 데이터 소스",
+            .onbSourceGuide:        "러닝 기록을 어디서 가져올지 직접 고를 수 있어요",
+            .onbSourceBody:         "Apple 건강에 연결된 앱에서 러닝을 불러와요. 모든 소스에서 받거나, 원하는 앱만 골라도 돼요.",
+            .onbSourceAllLabel:     "모든 소스",
+            .onbGoalTitle:          "목표 설정",
+            .onbGoalBody:           "거리·칼로리·시간 중 월간 목표를 선택하면 남은 양과 페이스를 보여드려요.",
+            .onbDoneTitle:          "준비 완료",
+            .onbDoneBody:           "설정에서 언제든 동기화하고, 홈 화면에 위젯을 추가해 꾸준히 이어가세요.",
+            .replayTutorial:        "튜토리얼 다시 보기",
             .forceRefreshWidget:    "위젯 강제 새로고침",
             .versionLabel:          "버전",
             .resetDataButton:       "데이터 초기화",
@@ -444,9 +556,7 @@ private enum Strings {
             .widgetTotalGoal:       "마일리지 목표",
             .widgetRemainingPrefix: "남은",
             .widgetPerRunUnit:      "/회",
-            .notifTitle:            "🏃 이번 달 목표 리마인더",
-            .notifBodyDaysFmt:      "목표까지 %@ 남았습니다. %d일 안에 달려보세요! 💪",
-            .notifBodyLastDay:      "목표까지 %@ 남았습니다. 내일이 마지막 기회예요! 💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "MyMileage 사용법",
             .longDateFormat:        "M월 d일",
             .shortDateFormat:       "M/d",
@@ -553,6 +663,37 @@ private enum Strings {
             .difficultyHard:            "약간 어려움",
             .difficultyVeryHard:        "매우 어려움",
             .journalUnavailable:        "HealthKit 재동기화 후 사용 가능",
+            .onbQ1Title:                "평균적으로 한 달에 얼마나 달리나요?",
+            .onbQ1Rarely:               "거의 달리지 않아요",
+            .onbQ1Under30:              "30 km 이내",
+            .onbQ1Under60:              "60 km 이내",
+            .onbQ1Under100:             "100 km 이내",
+            .onbQ1Over100:              "100 km 이상",
+            .onbQ2Title:                "보통 한 번에 얼마나 달리나요?",
+            .onbQ2Under3:               "3 km 미만",
+            .onbQ2Under5:               "약 5 km",
+            .onbQ2Under10:              "약 10 km",
+            .onbQ2Under20:              "약 20 km",
+            .onbQ2Over20:               "20 km 이상",
+            .onbQ3Title:                "얼마나 자주 달리나요?",
+            .onbQ3Daily:                "매일",
+            .onbQ3ThreeToFour:          "주 3~4회",
+            .onbQ3OneToTwo:             "주 1~2회",
+            .onbQ3Rarely:               "가끔씩",
+            .onbGoalTypeQ:              "무엇을 목표로 달릴까요?",
+            .onbSuggestionTitle:        "목표 제안",
+            .onbSuggestionBody:         "달리기 이력을 바탕으로 제안드려요:",
+            .onbSuggestionAdjust:       "슬라이더로 조정해보세요",
+            .reminderTimeLabel:         "알림 시간",
+            .dailyReminder1:            "오늘도 달려볼까요? 🏃 목표가 기다려요!",
+            .dailyReminder2:            "신발 끈 묶고 출발 👟 매 km가 소중해요.",
+            .dailyReminder3:            "짧게라도 달리면 이번 달 목표에 한 걸음 더.",
+            .dailyReminder4:            "이번 달 목표가 기다려요 — 가볍게 한 바퀴 어때요?",
+            .dailyReminder5:            "연속 기록을 이어가요 — 짧아도 괜찮아요.",
+            .dailyReminder6:            "오늘 움직이지 않고 하루를 보내지 마세요. ⚡",
+            .hkGuideAlertTitle:         "건강 권한 관리",
+            .hkGuideAlertMessage:       "건강 앱 → 공유 탭 → 앱 → MyMileage에서 권한을 설정할 수 있어요.",
+            .hkGuideOpenButton:         "건강 앱 열기",
         ],
 
         // ─────────── GERMAN ───────────
@@ -591,12 +732,28 @@ private enum Strings {
             .bgThemeSection:        "Hintergrund",
             .distUnitSection:       "Entfernungseinheit",
             .notificationsSection:  "Benachrichtigungen",
-            .goalReminderToggle:    "Ziel-Erinnerung",
-            .d7NotifLabel:          "D-7 (7 Tage vorher, 9 Uhr)",
-            .d3NotifLabel:          "D-3 (3 Tage vorher, 9 Uhr)",
-            .d1NotifLabel:          "D-1 (Tag vorher, 9 Uhr)",
+            .goalReminderToggle:    "Tägliche Erinnerung",
             .notifPermError:        "Benachrichtigungsberechtigung erforderlich. Bitte in Einstellungen aktivieren.",
             .reconnectHK:           "Apple Health neu verbinden",
+            .onbSkip:               "Überspringen",
+            .onbNext:               "Weiter",
+            .onbStart:              "Los geht's",
+            .onbLanguageTitle:      "Wähle deine Sprache",
+            .onbWelcomeTitle:       "Willkommen bei MyMileage",
+            .onbWelcomeBody:        "Verfolge dein monatliches Laufziel und bleib bei jedem Kilometer motiviert.",
+            .onbHealthTitle:        "Apple Health verbinden",
+            .onbHealthBody:         "MyMileage liest deine Lauf-Workouts aus Apple Health, um deinen Fortschritt zu verfolgen. Deine Daten bleiben auf deinem Gerät.",
+            .onbHealthGuide:        "Öffne den Tab „Einstellungen“, tippe auf „Apple Health erlauben“ und aktiviere alle Optionen.",
+            .onbHealthAllowAll:     "Alle aktivieren",
+            .onbSourceTitle:        "Deine Datenquelle",
+            .onbSourceGuide:        "Wähle, aus welchen Apps deine Läufe kommen",
+            .onbSourceBody:         "Läufe werden aus mit Apple Health verbundenen Apps übernommen. Nutze alle Quellen oder nur die gewünschten Apps.",
+            .onbSourceAllLabel:     "Alle Quellen",
+            .onbGoalTitle:          "Ziel festlegen",
+            .onbGoalBody:           "Wähle ein Monatsziel – Distanz, Kalorien oder Zeit – und wir zeigen dir, was noch fehlt und dein Tempo.",
+            .onbDoneTitle:          "Alles bereit",
+            .onbDoneBody:           "Synchronisiere jederzeit in den Einstellungen und füge das Widget zum Home-Bildschirm hinzu.",
+            .replayTutorial:        "Tutorial erneut ansehen",
             .forceRefreshWidget:    "Widget aktualisieren",
             .versionLabel:          "Version",
             .resetDataButton:       "Alle Daten zurücksetzen",
@@ -610,9 +767,7 @@ private enum Strings {
             .widgetTotalGoal:       "Laufziel",
             .widgetRemainingPrefix: "Verbleibend",
             .widgetPerRunUnit:      "/Lauf",
-            .notifTitle:            "🏃 Monatliches Ziel-Erinnerung",
-            .notifBodyDaysFmt:      "Noch %@ bis zum Ziel. In %d Tagen laufen! 💪",
-            .notifBodyLastDay:      "Noch %@ bis zum Ziel. Letzte Chance morgen! 💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "So verwendest du MyMileage",
             .longDateFormat:        "d. MMMM",
             .shortDateFormat:       "d.M.",
@@ -719,6 +874,37 @@ private enum Strings {
             .difficultyHard:            "Schwer",
             .difficultyVeryHard:        "Sehr schwer",
             .journalUnavailable:        "Nach HealthKit-Sync verfügbar",
+            .onbQ1Title:                "Wie weit läufst du durchschnittlich pro Monat?",
+            .onbQ1Rarely:               "Kaum",
+            .onbQ1Under30:              "Unter 30 km",
+            .onbQ1Under60:              "Unter 60 km",
+            .onbQ1Under100:             "Unter 100 km",
+            .onbQ1Over100:              "100 km oder mehr",
+            .onbQ2Title:                "Wie weit läufst du normalerweise?",
+            .onbQ2Under3:               "Unter 3 km",
+            .onbQ2Under5:               "Etwa 5 km",
+            .onbQ2Under10:              "Etwa 10 km",
+            .onbQ2Under20:              "Etwa 20 km",
+            .onbQ2Over20:               "20 km oder mehr",
+            .onbQ3Title:                "Wie oft läufst du?",
+            .onbQ3Daily:                "Täglich",
+            .onbQ3ThreeToFour:          "3–4 Mal pro Woche",
+            .onbQ3OneToTwo:             "1–2 Mal pro Woche",
+            .onbQ3Rarely:               "Gelegentlich",
+            .onbGoalTypeQ:              "Was möchtest du verfolgen?",
+            .onbSuggestionTitle:        "Dein Ziel",
+            .onbSuggestionBody:         "Basierend auf deinem Laufverlauf:",
+            .onbSuggestionAdjust:       "Ziehe zum Anpassen",
+            .reminderTimeLabel:         "Erinnerungszeit",
+            .dailyReminder1:            "Lauf los! 🏃 Dein Ziel wartet.",
+            .dailyReminder2:            "Schnürsenkel binden und los 👟 Jeder km zählt.",
+            .dailyReminder3:            "Ein kurzer Lauf heute hält deinen Schwung.",
+            .dailyReminder4:            "Dein Monatsziel wartet — hol dir ein paar Kilometer.",
+            .dailyReminder5:            "Serie am Laufen halten — auch kurze Läufe zählen.",
+            .dailyReminder6:            "Lass den Tag nicht ohne Bewegung enden. ⚡",
+            .hkGuideAlertTitle:         "Gesundheit-Berechtigungen verwalten",
+            .hkGuideAlertMessage:       "Gesundheit-App → Teilen → Apps → MyMileage, um Berechtigungen anzupassen.",
+            .hkGuideOpenButton:         "Gesundheit-App öffnen",
         ],
 
         // ─────────── FRENCH ───────────
@@ -757,12 +943,28 @@ private enum Strings {
             .bgThemeSection:        "Arrière-plan",
             .distUnitSection:       "Unité de distance",
             .notificationsSection:  "Notifications",
-            .goalReminderToggle:    "Rappel d'objectif",
-            .d7NotifLabel:          "D-7 (7 jours avant, 9h)",
-            .d3NotifLabel:          "D-3 (3 jours avant, 9h)",
-            .d1NotifLabel:          "D-1 (veille, 9h)",
+            .goalReminderToggle:    "Rappel quotidien",
             .notifPermError:        "Permission de notification requise. Activez-la dans Réglages.",
             .reconnectHK:           "Reconnecter Apple Health",
+            .onbSkip:               "Passer",
+            .onbNext:               "Suivant",
+            .onbStart:              "Commencer",
+            .onbLanguageTitle:      "Choisissez votre langue",
+            .onbWelcomeTitle:       "Bienvenue sur MyMileage",
+            .onbWelcomeBody:        "Suivez votre objectif de course mensuel et restez motivé à chaque kilomètre.",
+            .onbHealthTitle:        "Connecter Apple Health",
+            .onbHealthBody:         "MyMileage lit vos entraînements de course depuis Apple Health pour suivre votre progression. Vos données restent sur votre appareil.",
+            .onbHealthGuide:        "Ouvrez l'onglet Réglages, touchez « Autoriser Apple Health », puis activez tout.",
+            .onbHealthAllowAll:     "Tout activer",
+            .onbSourceTitle:        "Source de vos courses",
+            .onbSourceGuide:        "Choisissez les apps d'où proviennent vos courses",
+            .onbSourceBody:         "Les courses se synchronisent depuis les apps liées à Apple Santé. Utilisez toutes les sources ou seulement les apps de votre choix.",
+            .onbSourceAllLabel:     "Toutes les sources",
+            .onbGoalTitle:          "Définir votre objectif",
+            .onbGoalBody:           "Choisissez un objectif mensuel — distance, calories ou temps — et nous afficherons ce qu'il reste et votre rythme.",
+            .onbDoneTitle:          "Tout est prêt",
+            .onbDoneBody:           "Synchronisez à tout moment depuis les réglages et ajoutez le widget à votre écran d'accueil.",
+            .replayTutorial:        "Revoir le tutoriel",
             .forceRefreshWidget:    "Actualiser le widget",
             .versionLabel:          "Version",
             .resetDataButton:       "Réinitialiser les données",
@@ -776,9 +978,7 @@ private enum Strings {
             .widgetTotalGoal:       "Objectif kilométrique",
             .widgetRemainingPrefix: "Restant",
             .widgetPerRunUnit:      "/course",
-            .notifTitle:            "🏃 Rappel d'objectif mensuel",
-            .notifBodyDaysFmt:      "%@ restants. Courez dans %d jours ! 💪",
-            .notifBodyLastDay:      "%@ restants. Dernière chance demain ! 💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "Comment utiliser MyMileage",
             .longDateFormat:        "d MMMM",
             .shortDateFormat:       "d/M",
@@ -885,6 +1085,37 @@ private enum Strings {
             .difficultyHard:            "Difficile",
             .difficultyVeryHard:        "Très difficile",
             .journalUnavailable:        "Disponible après sync HealthKit",
+            .onbQ1Title:                "En moyenne, combien de km courez-vous par mois ?",
+            .onbQ1Rarely:               "Rarement",
+            .onbQ1Under30:              "Moins de 30 km",
+            .onbQ1Under60:              "Moins de 60 km",
+            .onbQ1Under100:             "Moins de 100 km",
+            .onbQ1Over100:              "100 km ou plus",
+            .onbQ2Title:                "Quelle est votre distance de course habituelle ?",
+            .onbQ2Under3:               "Moins de 3 km",
+            .onbQ2Under5:               "Environ 5 km",
+            .onbQ2Under10:              "Environ 10 km",
+            .onbQ2Under20:              "Environ 20 km",
+            .onbQ2Over20:               "20 km ou plus",
+            .onbQ3Title:                "Combien de fois courez-vous ?",
+            .onbQ3Daily:                "Chaque jour",
+            .onbQ3ThreeToFour:          "3–4 fois par semaine",
+            .onbQ3OneToTwo:             "1–2 fois par semaine",
+            .onbQ3Rarely:               "Occasionnellement",
+            .onbGoalTypeQ:              "Que voulez-vous suivre ?",
+            .onbSuggestionTitle:        "Votre Objectif",
+            .onbSuggestionBody:         "Basé sur votre historique de course :",
+            .onbSuggestionAdjust:       "Glisser pour ajuster",
+            .reminderTimeLabel:         "Heure du rappel",
+            .dailyReminder1:            "En route ! 🏃 Votre objectif vous attend.",
+            .dailyReminder2:            "Lacez-vous et partez 👟 Chaque km compte.",
+            .dailyReminder3:            "Une courte course aujourd'hui entretient votre élan.",
+            .dailyReminder4:            "Votre objectif mensuel vous attend — allez chercher des km.",
+            .dailyReminder5:            "Maintenez la série — même une courte course compte.",
+            .dailyReminder6:            "Ne laissez pas la journée passer sans bouger. ⚡",
+            .hkGuideAlertTitle:         "Gérer les autorisations Santé",
+            .hkGuideAlertMessage:       "Santé → Partage → Applications → MyMileage pour modifier les autorisations.",
+            .hkGuideOpenButton:         "Ouvrir Santé",
         ],
 
         // ─────────── CHINESE ───────────
@@ -923,12 +1154,28 @@ private enum Strings {
             .bgThemeSection:        "背景主题",
             .distUnitSection:       "距离单位",
             .notificationsSection:  "通知",
-            .goalReminderToggle:    "目标提醒",
-            .d7NotifLabel:          "D-7（提前7天，早上9点）",
-            .d3NotifLabel:          "D-3（提前3天，早上9点）",
-            .d1NotifLabel:          "D-1（前一天，早上9点）",
+            .goalReminderToggle:    "每日习惯提醒",
             .notifPermError:        "需要通知权限，请在设置中允许。",
             .reconnectHK:           "重新连接 Apple Health",
+            .onbSkip:               "跳过",
+            .onbNext:               "下一步",
+            .onbStart:              "开始使用",
+            .onbLanguageTitle:      "选择您的语言",
+            .onbWelcomeTitle:       "欢迎使用 MyMileage",
+            .onbWelcomeBody:        "追踪你的每月跑步目标，让每一公里都充满动力。",
+            .onbHealthTitle:        "连接 Apple Health",
+            .onbHealthBody:         "MyMileage 会读取 Apple Health 中的跑步记录来追踪进度。你的数据仅保存在设备上。",
+            .onbHealthGuide:        "打开“设置”标签，点按“允许 Apple 健康”，然后全部打开。",
+            .onbHealthAllowAll:     "全部打开",
+            .onbSourceTitle:        "跑步数据来源",
+            .onbSourceGuide:        "选择从哪些应用获取你的跑步记录",
+            .onbSourceBody:         "跑步记录会从连接到 Apple 健康的应用同步。可使用全部来源，或只选择你想要的应用。",
+            .onbSourceAllLabel:     "所有来源",
+            .onbGoalTitle:          "设置目标",
+            .onbGoalBody:           "选择每月目标——距离、卡路里或时间——我们会显示剩余量和你的进度节奏。",
+            .onbDoneTitle:          "一切就绪",
+            .onbDoneBody:           "随时在设置中同步，并将小组件添加到主屏幕以保持进度。",
+            .replayTutorial:        "重新查看教程",
             .forceRefreshWidget:    "强制刷新小组件",
             .versionLabel:          "版本",
             .resetDataButton:       "重置所有数据",
@@ -942,9 +1189,7 @@ private enum Strings {
             .widgetTotalGoal:       "里程目标",
             .widgetRemainingPrefix: "剩余",
             .widgetPerRunUnit:      "/次",
-            .notifTitle:            "🏃 月度目标提醒",
-            .notifBodyDaysFmt:      "距离目标还差%@，请在%d天内完成！💪",
-            .notifBodyLastDay:      "距离目标还差%@，明天是最后机会！💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "如何使用 MyMileage",
             .longDateFormat:        "M月d日",
             .shortDateFormat:       "M/d",
@@ -1051,6 +1296,37 @@ private enum Strings {
             .difficultyHard:            "有些困难",
             .difficultyVeryHard:        "非常困难",
             .journalUnavailable:        "同步 HealthKit 后可用",
+            .onbQ1Title:                "你平均每月跑多少公里？",
+            .onbQ1Rarely:               "几乎不跑",
+            .onbQ1Under30:              "30公里以内",
+            .onbQ1Under60:              "60公里以内",
+            .onbQ1Under100:             "100公里以内",
+            .onbQ1Over100:              "100公里以上",
+            .onbQ2Title:                "你通常单次跑多少公里？",
+            .onbQ2Under3:               "3公里以内",
+            .onbQ2Under5:               "约5公里",
+            .onbQ2Under10:              "约10公里",
+            .onbQ2Under20:              "约20公里",
+            .onbQ2Over20:               "20公里以上",
+            .onbQ3Title:                "你多久跑一次？",
+            .onbQ3Daily:                "每天",
+            .onbQ3ThreeToFour:          "每周3-4次",
+            .onbQ3OneToTwo:             "每周1-2次",
+            .onbQ3Rarely:               "偶尔",
+            .onbGoalTypeQ:              "你想追踪什么？",
+            .onbSuggestionTitle:        "你的目标",
+            .onbSuggestionBody:         "根据你的跑步历史，建议：",
+            .onbSuggestionAdjust:       "拖动滑块以调整",
+            .reminderTimeLabel:         "提醒时间",
+            .dailyReminder1:            "出发！🏃 你的目标在等着你。",
+            .dailyReminder2:            "系好鞋带，出发 👟 每公里都有意义。",
+            .dailyReminder3:            "今天跑一小段，保持你的势头。",
+            .dailyReminder4:            "本月目标在等你 — 去跑几公里吧。",
+            .dailyReminder5:            "保持连续记录 — 短跑也算数。",
+            .dailyReminder6:            "不要让今天在没有运动的情况下结束。⚡",
+            .hkGuideAlertTitle:         "管理健康权限",
+            .hkGuideAlertMessage:       "健康 App → 共享 → App → MyMileage，即可修改权限。",
+            .hkGuideOpenButton:         "打开健康 App",
         ],
 
         // ─────────── SPANISH ───────────
@@ -1089,12 +1365,28 @@ private enum Strings {
             .bgThemeSection:        "Fondo",
             .distUnitSection:       "Unidad de distancia",
             .notificationsSection:  "Notificaciones",
-            .goalReminderToggle:    "Recordatorio de meta",
-            .d7NotifLabel:          "D-7 (7 días antes, 9h)",
-            .d3NotifLabel:          "D-3 (3 días antes, 9h)",
-            .d1NotifLabel:          "D-1 (día anterior, 9h)",
+            .goalReminderToggle:    "Recordatorio diario",
             .notifPermError:        "Se requiere permiso de notificación. Actívalo en Configuración.",
             .reconnectHK:           "Reconectar Apple Health",
+            .onbSkip:               "Omitir",
+            .onbNext:               "Siguiente",
+            .onbStart:              "Empezar",
+            .onbLanguageTitle:      "Elige tu idioma",
+            .onbWelcomeTitle:       "Bienvenido a MyMileage",
+            .onbWelcomeBody:        "Sigue tu objetivo de carrera mensual y mantente motivado en cada kilómetro.",
+            .onbHealthTitle:        "Conectar Apple Health",
+            .onbHealthBody:         "MyMileage lee tus entrenamientos de carrera desde Apple Health para seguir tu progreso. Tus datos permanecen en tu dispositivo.",
+            .onbHealthGuide:        "Abre la pestaña Ajustes, toca «Permitir Apple Health» y actívalo todo.",
+            .onbHealthAllowAll:     "Activar todo",
+            .onbSourceTitle:        "Origen de tus carreras",
+            .onbSourceGuide:        "Elige de qué apps se obtienen tus carreras",
+            .onbSourceBody:         "Las carreras se sincronizan desde apps conectadas a Salud de Apple. Usa todas las fuentes o solo las apps que quieras.",
+            .onbSourceAllLabel:     "Todas las fuentes",
+            .onbGoalTitle:          "Define tu objetivo",
+            .onbGoalBody:           "Elige un objetivo mensual — distancia, calorías o tiempo — y te mostraremos lo que falta y tu ritmo.",
+            .onbDoneTitle:          "Todo listo",
+            .onbDoneBody:           "Sincroniza cuando quieras desde Ajustes y añade el widget a tu pantalla de inicio.",
+            .replayTutorial:        "Ver tutorial de nuevo",
             .forceRefreshWidget:    "Actualizar widget",
             .versionLabel:          "Versión",
             .resetDataButton:       "Restablecer todos los datos",
@@ -1108,9 +1400,7 @@ private enum Strings {
             .widgetTotalGoal:       "Meta de kilometraje",
             .widgetRemainingPrefix: "Restante",
             .widgetPerRunUnit:      "/carrera",
-            .notifTitle:            "🏃 Recordatorio de meta mensual",
-            .notifBodyDaysFmt:      "%@ restantes. ¡Corre en %d días! 💪",
-            .notifBodyLastDay:      "%@ restantes. ¡Última oportunidad mañana! 💪",
+            .notifTitle:            "🏃 MyMileage",
             .helpTitle:             "Cómo usar MyMileage",
             .longDateFormat:        "d 'de' MMMM",
             .shortDateFormat:       "d/M",
@@ -1217,6 +1507,37 @@ private enum Strings {
             .difficultyHard:            "Difícil",
             .difficultyVeryHard:        "Muy difícil",
             .journalUnavailable:        "Disponible tras sincronizar HealthKit",
+            .onbQ1Title:                "¿Cuánto corres al mes en promedio?",
+            .onbQ1Rarely:               "Casi no corro",
+            .onbQ1Under30:              "Menos de 30 km",
+            .onbQ1Under60:              "Menos de 60 km",
+            .onbQ1Under100:             "Menos de 100 km",
+            .onbQ1Over100:              "100 km o más",
+            .onbQ2Title:                "¿Cuánto sueles correr en cada salida?",
+            .onbQ2Under3:               "Menos de 3 km",
+            .onbQ2Under5:               "Alrededor de 5 km",
+            .onbQ2Under10:              "Alrededor de 10 km",
+            .onbQ2Under20:              "Alrededor de 20 km",
+            .onbQ2Over20:               "20 km o más",
+            .onbQ3Title:                "¿Con qué frecuencia corres?",
+            .onbQ3Daily:                "Todos los días",
+            .onbQ3ThreeToFour:          "3–4 veces a la semana",
+            .onbQ3OneToTwo:             "1–2 veces a la semana",
+            .onbQ3Rarely:               "Ocasionalmente",
+            .onbGoalTypeQ:              "¿Qué quieres registrar?",
+            .onbSuggestionTitle:        "Tu Objetivo",
+            .onbSuggestionBody:         "Basado en tu historial de carrera:",
+            .onbSuggestionAdjust:       "Arrastra para ajustar",
+            .reminderTimeLabel:         "Hora del recordatorio",
+            .dailyReminder1:            "¡A correr! 🏃 Tu objetivo te espera.",
+            .dailyReminder2:            "¡Átate los cordones y sal 👟 Cada km cuenta.",
+            .dailyReminder3:            "Una carrera corta hoy mantiene tu impulso.",
+            .dailyReminder4:            "Tu meta mensual te espera — ve a por unos km.",
+            .dailyReminder5:            "Mantén la racha — incluso una carrera corta cuenta.",
+            .dailyReminder6:            "No dejes que el día termine sin moverte. ⚡",
+            .hkGuideAlertTitle:         "Gestionar permisos de Salud",
+            .hkGuideAlertMessage:       "Salud → Compartir → Apps → MyMileage para ajustar los permisos.",
+            .hkGuideOpenButton:         "Abrir Salud",
         ],
     ]
 }

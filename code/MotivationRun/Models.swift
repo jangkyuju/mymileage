@@ -23,6 +23,18 @@ extension Color {
     }
 }
 
+// MARK: - 날짜 유틸 (shared: main app + widget targets)
+
+/// 주어진 기준일을 포함하여 이번 달 남은 일수 반환 (오늘 포함, 최소 1)
+func remainingDaysInMonth(from date: Date, calendar: Calendar = .current) -> Int {
+    let startOfDay = calendar.startOfDay(for: date)
+    guard let startOfThisMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: startOfDay)),
+          let startOfNextMonth  = calendar.date(byAdding: .month, value: 1, to: startOfThisMonth) else {
+        return 1
+    }
+    return max(calendar.dateComponents([.day], from: startOfDay, to: startOfNextMonth).day ?? 1, 1)
+}
+
 // MARK: - AppLanguage
 
 enum AppLanguage: String, Codable, CaseIterable {
@@ -271,10 +283,9 @@ enum WidgetDesign: String, Codable, CaseIterable {
 // MARK: - NotificationSettings
 
 struct NotificationSettings: Codable {
-    var isEnabled: Bool = false
-    var d7Enabled: Bool = true   // 월말 7일 전 알림
-    var d3Enabled: Bool = true   // 월말 3일 전 알림
-    var d1Enabled: Bool = false  // 월말 1일 전 알림
+    var isEnabled: Bool = true    // 매일 습관 알림 on/off (단일 마스터, 기본 ON)
+    var reminderHour: Int = 19    // 알림 시각 - 시 (기본 19시)
+    var reminderMinute: Int = 0   // 알림 시각 - 분 (기본 0분)
 }
 
 // MARK: - RunSession
