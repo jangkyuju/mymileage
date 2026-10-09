@@ -34,7 +34,7 @@ struct LogView: View {
     private var cSub:    Color  { themeBackground.subText }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 cBg.ignoresSafeArea()
 
@@ -100,7 +100,6 @@ struct LogView: View {
             .preferredColorScheme(themeBackground.colorScheme)
             .onAppear { fetchSessions() }
         }
-        .navigationViewStyle(.stack)
     }
 
     private func fetchSessions() {

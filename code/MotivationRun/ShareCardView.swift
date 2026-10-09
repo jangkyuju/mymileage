@@ -185,7 +185,9 @@ enum ShareCardRenderer {
         template: ShareCardTemplate,
         format: ShareCardFormat
     ) -> UIImage? {
+        // Export는 고정 사이즈로 렌더링 — 사용자 Dynamic Type 설정의 영향을 받지 않는다.
         let view = ShareCardView(data: data, template: template, format: format)
+            .environment(\.dynamicTypeSize, .large)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 3.0
         return renderer.uiImage

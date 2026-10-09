@@ -49,6 +49,7 @@ private func streakFromSessions(_ sessions: [RunSession]) -> Int {
 
 struct ContentView: View {
     @StateObject private var storeManager = StoreManager.shared
+    @StateObject private var themeStore = ThemeStore()
 
     @State private var goalTarget: Double = 100.0
     @State private var goalType: GoalType = .distance
@@ -215,7 +216,7 @@ struct ContentView: View {
 
     var body: some View {
         // Tab content — all kept in memory to preserve scroll state.
-        // .overlay places FloatingTabBar in a separate UIKit layer above NavigationView,
+        // .overlay places FloatingTabBar in a separate UIKit layer above NavigationStack,
         // which avoids UIKit hit-test interception from the UINavigationController.
         ZStack {
             dashboardTab()
@@ -264,6 +265,9 @@ struct ContentView: View {
             .allowsHitTesting(selectedTab == 3)
         }
         .ignoresSafeArea(edges: .bottom)
+        .environmentObject(themeStore)
+        .onChange(of: themeAccent) { themeStore.update(accent: themeAccent, background: themeBackground) }
+        .onChange(of: themeBackground) { themeStore.update(accent: themeAccent, background: themeBackground) }
         .overlay(alignment: .bottom) {
             FloatingTabBar(
                 selectedTab: $selectedTab,
@@ -308,7 +312,7 @@ struct ContentView: View {
     // MARK: - 대시보드 탭 콘텐츠
 
     private func dashboardTab() -> some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 cBg.ignoresSafeArea()
 
@@ -392,7 +396,6 @@ struct ContentView: View {
         }
         .animation(.easeInOut(duration: 0.25), value: showToast)
     }
-    .navigationViewStyle(.stack)
     }
 
     // MARK: - 월 네비게이터 (HMG Card Chevrons)
@@ -885,6 +888,7 @@ struct ContentView: View {
         isAuthorized    = HealthKitService.shared.hasRequestedAuthorization()
         applyNavBarStyle()
         checkForGoalCelebration()
+        themeStore.syncFromStore()
     }
 
     // iOS large title ≈ 34pt → 15% reduction = ~29pt
@@ -938,7 +942,7 @@ struct HelpView: View {
     private func t(_ key: LK) -> String { L(key, language) }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 cBg.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
@@ -1187,7 +1191,7 @@ struct GoalSettingView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     Picker(selection: $selectedGoalType) {
@@ -1373,7 +1377,7 @@ struct SettingsTabView: View {
 
     // MARK: - Settings Body
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 background.appBg.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
@@ -1920,7 +1924,6 @@ struct SettingsTabView: View {
                          cSub: background.subText)
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     private func formatGoalLabel() -> String {
@@ -2149,7 +2152,7 @@ struct WidgetImageCropView: View {
     @State private var currentCropW: CGFloat = 400  // 실제 화면 크롭 폭 (renderCrop 동기화용)
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.black.ignoresSafeArea()
 
@@ -2315,7 +2318,7 @@ struct DataSourceFilterView: View {
     private var allSelected: Bool { selectedBundleIDs.isEmpty }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     Button {
@@ -2422,7 +2425,7 @@ struct CalendarView: View {
     private var cSub:    Color  { themeBackground.subText }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 cBg.ignoresSafeArea()
 
@@ -2464,7 +2467,6 @@ struct CalendarView: View {
             .onAppear { focusLastWorkoutOfMonth() }
             .onChange(of: displayMonth) { focusLastWorkoutOfMonth() }
         }
-        .navigationViewStyle(.stack)
     }
 
     private var monthPicker: some View {

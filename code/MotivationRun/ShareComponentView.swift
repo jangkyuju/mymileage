@@ -376,7 +376,8 @@ func renderComponent(_ component: ShareComponent, data: ShareCardData) -> UIImag
     case .statsTrio:
         view = AnyView(StatsTrioComponent(data: data))
     }
-    let renderer = ImageRenderer(content: view.frame(width: size.width, height: size.height))
+    // Export는 고정 사이즈로 렌더링 — 사용자 Dynamic Type 설정의 영향을 받지 않는다.
+    let renderer = ImageRenderer(content: view.frame(width: size.width, height: size.height).environment(\.dynamicTypeSize, .large))
     renderer.scale = 3
     return renderer.uiImage
 }

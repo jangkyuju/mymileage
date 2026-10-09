@@ -48,6 +48,12 @@ struct FloatingTabBar: View {
             .safeAreaInsets.bottom ?? 0
     }
 
+    private func selectTab(_ i: Int) {
+        guard i != selectedTab else { return }
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        withAnimation(.easeInOut(duration: 0.15)) { selectedTab = i }
+    }
+
     private let tabs: [(icon: String, label: String)] = [
         ("chart.bar.fill",        "Dashboard"),
         ("list.bullet.rectangle", "Log"),
@@ -76,7 +82,7 @@ struct FloatingTabBar: View {
                                 .font(.system(size: 20, weight: on ? .semibold : .regular))
                                 .foregroundColor(on ? primaryColor : inkLow)
                             Text(tabs[i].label)
-                                .font(.pretendard(on ? .bold : .medium, size: 10))
+                                .font(AppFont.caption2(on ? .bold : .medium))
                                 .foregroundColor(on ? primaryColor : inkLow)
                         }
                         .frame(maxWidth: .infinity)
@@ -86,9 +92,9 @@ struct FloatingTabBar: View {
                                 .fill(on ? primarySoft : Color.clear)
                         )
                         .contentShape(Rectangle())
-                        .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.15)) { selectedTab = i }
-                        }
+                        .accessibilityLabel(Text(tabs[i].label))
+                        .accessibilityAddTraits(on ? [.isButton, .isSelected] : .isButton)
+                        .onTapGesture { selectTab(i) }
                     }
                 }
                 .padding(.horizontal, 8)
@@ -115,6 +121,25 @@ struct FloatingTabBar: View {
             .background(appBg)
         }
     }
+}
+
+// MARK: - App Type Scale (3번: Dynamic Type 대응)
+//
+// .custom(name:size:relativeTo:)은 기본 콘텐츠 크기에서 기존 고정 사이즈와
+// 동일하게 렌더링되며, 사용자가 큰 텍스트를 켰을 때만 스케일된다.
+// 공유카드 Export·위젯에는 사용하지 말 것 (Export 레이아웃 고정 유지).
+
+enum AppFont {
+    static func scaled(_ weight: PretendardWeight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+        .custom(weight.postScriptName, size: size, relativeTo: style)
+    }
+    static func largeTitle(_ weight: PretendardWeight = .bold) -> Font { scaled(weight, size: 28, relativeTo: .largeTitle) }
+    static func title(_ weight: PretendardWeight = .bold) -> Font { scaled(weight, size: 22, relativeTo: .title) }
+    static func headline(_ weight: PretendardWeight = .semiBold) -> Font { scaled(weight, size: 17, relativeTo: .headline) }
+    static func body(_ weight: PretendardWeight = .regular) -> Font { scaled(weight, size: 15, relativeTo: .body) }
+    static func callout(_ weight: PretendardWeight = .regular) -> Font { scaled(weight, size: 13, relativeTo: .callout) }
+    static func caption(_ weight: PretendardWeight = .medium) -> Font { scaled(weight, size: 11, relativeTo: .caption) }
+    static func caption2(_ weight: PretendardWeight = .medium, size: CGFloat = 10) -> Font { scaled(weight, size: size, relativeTo: .caption2) }
 }
 
 // MARK: - App Card (HMG · 16px radius · subtle shadow)

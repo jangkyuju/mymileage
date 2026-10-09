@@ -96,4 +96,39 @@ final class MotivationRunTests: XCTestCase {
         }
     }
 
+    // MARK: - ThemeStore fallback (1번: 기존 기본값 유지)
+
+    func testThemeFallbackDefaultsMatchLegacy() throws {
+        XCTAssertEqual(ThemeStore.fallbackAccent(raw: nil), .blue)
+        XCTAssertEqual(ThemeStore.fallbackBackground(raw: nil), .white)
+        XCTAssertEqual(ThemeStore.fallbackAccent(raw: "nonsense"), .blue)
+        XCTAssertEqual(ThemeStore.fallbackBackground(raw: "nonsense"), .white)
+        for accent in ThemeAccent.allCases {
+            XCTAssertEqual(ThemeStore.fallbackAccent(raw: accent.rawValue), accent)
+        }
+        for background in ThemeBackground.allCases {
+            XCTAssertEqual(ThemeStore.fallbackBackground(raw: background.rawValue), background)
+        }
+    }
+
+    func testThemeBackgroundCaseCountUnchanged() throws {
+        // 새 케이스 추가는 기존 사용자의 저장값·위젯에 영향을 주므로 명시적 결정 필요
+        XCTAssertEqual(ThemeBackground.allCases.count, 2)
+    }
+
+    func testResetPreservesProEntitlement() throws {
+        XCTAssertFalse(SharedDataManager.resettableKeys.contains("isPro"))
+        XCTAssertTrue(SharedDataManager.resettableKeys.contains("themeAccent"))
+        XCTAssertTrue(SharedDataManager.resettableKeys.contains("themeBackground"))
+        XCTAssertTrue(SharedDataManager.resettableKeys.contains("journalEntries"))
+        XCTAssertTrue(SharedDataManager.resettableKeys.contains("galleryImageIDs"))
+    }
+
+    func testThemeStoreExplicitInit() throws {
+        let store = ThemeStore(accent: .green, background: .black)
+        XCTAssertEqual(store.accent, .green)
+        XCTAssertEqual(store.background, .black)
+        XCTAssertEqual(store.tokens.background, .black)
+    }
+
 }

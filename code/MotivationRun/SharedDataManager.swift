@@ -314,15 +314,20 @@ class SharedDataManager {
     }
 
     // MARK: - 전체 초기화
-
-    func resetAll() {
-        let keys = ["monthlyStats", "goalType", "goalTarget", "runFrequency",
-                    "themeAccent", "themeBackground", "distanceUnit",
+    //
+    // 반드시 유지: "isPro"를 포함하지 않는다. 데이터 초기화가 유료 구매 상태를
+    // 해제하면 안 되며, Pro 해제는 '구매 복원' 경로에서만 수행한다.
+    // "onboardingCompleted"/"celebratedMonth_*"/"hkAuthRequested"는
+    // UserDefaults.standard 영역이라 여기서 다루지 않는다.
+    static let resettableKeys: Set<String> = ["monthlyStats", "goalType", "goalTarget",
+                    "runFrequency", "themeAccent", "themeBackground", "distanceUnit",
                     "notificationSettings", "hasWidgetBgImage",
                     "widgetBgIsDark", "widgetDesign", "workoutSourcePreference",
                     "galleryImageIDs", "activeGalleryID",
                     "appLanguage", "journalEntries"]
-        keys.forEach { userDefaults?.removeObject(forKey: $0) }
+
+    func resetAll() {
+        Self.resettableKeys.forEach { userDefaults?.removeObject(forKey: $0) }
         if let url = widgetBgImageURL { try? FileManager.default.removeItem(at: url) }
         if let dir = galleryDirectoryURL { try? FileManager.default.removeItem(at: dir) }
         UserDefaults.standard.removeObject(forKey: "hkAuthRequested")

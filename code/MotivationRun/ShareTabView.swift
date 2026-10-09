@@ -30,7 +30,7 @@ struct ShareTabView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 cBg.ignoresSafeArea()
 

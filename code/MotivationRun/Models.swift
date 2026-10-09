@@ -365,3 +365,75 @@ struct WorkoutSourcePreference: Codable {
         return allowedBundleIDs.contains(bundleID)
     }
 }
+
+// MARK: - ThemeStore (1번: 단일 테마 소스, 저장 키·기본값 유지)
+//
+// 반드시 유지: 저장 키(themeAccent/themeBackground)와 기본값(.blue/.white)은
+// SharedDataManager와 동일하다. 쓰기 경로는 기존 saveAll() 그대로이며,
+// 본 스토어는 loadData() 동기화용 읽기 거울이다. 위젯은 App Group suite를
+// 직접 읽으므로 이 변경의 영향을 받지 않는다.
+// NOTE: 위젯 타겟에도 컴파일되므로 앱 전용 import를 추가하지 말 것.
+
+final class ThemeStore: ObservableObject {
+    @Published private(set) var accent: ThemeAccent
+    @Published private(set) var background: ThemeBackground
+
+    init(accent: ThemeAccent? = nil, background: ThemeBackground? = nil) {
+        self.accent = accent ?? SharedDataManager.shared.getThemeAccent()
+        self.background = background ?? SharedDataManager.shared.getThemeBackground()
+    }
+
+    /// 손상·미지의 raw 값에 대한 폴백 — SharedDataManager와 동일한 기본값
+    static func fallbackAccent(raw: String?) -> ThemeAccent {
+        guard let raw = raw, let accent = ThemeAccent(rawValue: raw) else { return .blue }
+        return accent
+    }
+
+    static func fallbackBackground(raw: String?) -> ThemeBackground {
+        guard let raw = raw, let background = ThemeBackground(rawValue: raw) else { return .white }
+        return background
+    }
+
+    /// ContentView.loadData()와 동일한 읽기 경로로 동기화
+    func syncFromStore() {
+        accent = SharedDataManager.shared.getThemeAccent()
+        background = SharedDataManager.shared.getThemeBackground()
+    }
+
+    /// @State 변경을 거울에 반영 (영속화는 기존 saveAll 경로가 담당)
+    func update(accent: ThemeAccent, background: ThemeBackground) {
+        self.accent = accent
+        self.background = background
+    }
+
+    var tokens: ThemeTokens { ThemeTokens(background: background, accent: accent) }
+}
+
+// MARK: - ThemeTokens (3번: 정적 3-surface 토큰 — 기존 값과 동일, 시각 변경 없음)
+
+struct ThemeTokens {
+    let background: ThemeBackground
+    let accent: ThemeAccent
+
+    var accentColor: Color { background.isDark ? accent.colorDark : accent.color }
+    var appBg: Color { background.appBg }
+    var surface: Color { background.cardBg }
+    var surfaceSoft: Color { background.cardSoft }
+    var line: Color { background.lineColor }
+    var mainText: Color { background.mainText }
+    var subText: Color { background.subText }
+}
+
+private struct ThemeStoreKey: EnvironmentKey {
+    // 결정적 기본값. 실제 값은 ContentView가 environmentObject로 주입한다.
+    static let defaultValue = ThemeStore(accent: .blue, background: .white)
+}
+
+extension EnvironmentValues {
+    var themeStore: ThemeStore {
+        get { self[ThemeStoreKey.self] }
+        set { self[ThemeStoreKey.self] = newValue }
+    }
+    var themeTokens: ThemeTokens { self[ThemeStoreKey.self].tokens }
+}
+
